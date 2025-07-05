@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "nx": "^21.2.2"
+    "nx": "^20.8.2"
   },
   "devDependencies": {
     "@nx-go/nx-go": "^3.3.1",
-    "nx": "21.2.2"
+    "@nx/workspace": "20.8.2",
+    "nx": "^20.8.2"
   }
 }

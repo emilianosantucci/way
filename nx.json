@@ -8,5 +8,9 @@
     "sharedGlobals": [
       "{workspaceRoot}/go.work"
     ]
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
   }
 }
