@@ -1,0 +1,7 @@
+[tools]
+go = "1.24"
+node = "latest"
+pnpm = "latest"
+
+[env]
+MISE_GO_SET_GOPATH = true
