@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "nxCloudId": "686965d5c7e9a42db8f2e0f5",
+  "plugins": [
+    "@nx-go/nx-go"
+  ],
+  "namedInputs": {
+    "sharedGlobals": [
+      "{workspaceRoot}/go.work"
+    ]
+  }
+}
