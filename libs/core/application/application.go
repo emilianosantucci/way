@@ -2,12 +2,15 @@ package application
 
 import "go.uber.org/fx"
 
-var Module = fx.Module("application",
-	fx.Provide(New),
-)
+type Result struct {
+	fx.Out
+	App *Application
+}
 
-func New() *Application {
-	return &Application{}
+func New() Result {
+	return Result{
+		App: &Application{},
+	}
 }
 
 type Application struct {

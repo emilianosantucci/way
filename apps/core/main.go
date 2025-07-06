@@ -9,13 +9,18 @@ import (
 func main() {
 	app := fx.New(
 		application.Module,
-		fx.Invoke(Hello),
+		fx.Invoke(Run),
 	)
 
 	app.Run()
 }
 
-func Hello(myApp *application.Application) {
-	result := myApp.Log("Way")
+type Params struct {
+	fx.In
+	App *application.Application
+}
+
+func Run(params Params) {
+	result := params.App.Log("Way")
 	fmt.Println(result)
 }
