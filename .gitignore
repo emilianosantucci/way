@@ -7,7 +7,6 @@ out/
 .idea_modules/
 
 # Go
-go.work
 *.exe
 *.exe~
 *.dll
@@ -31,9 +30,6 @@ go.work
 
 # Dependency directories
 vendor/
-
-# Go workspace file
-go.work
 
 # Nx
 .nx/
