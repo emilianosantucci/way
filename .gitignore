@@ -6,14 +6,7 @@
 out/
 .idea_modules/
 
-# Go
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-*.test
-*.out
+## Go
 
 # Binaries for programs and plugins
 *.exe
@@ -31,7 +24,7 @@ out/
 # Dependency directories
 vendor/
 
-# Nx
+## Nx
 .nx/
 dist/
 tmp/
