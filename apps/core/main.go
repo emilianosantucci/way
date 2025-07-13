@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"go.uber.org/fx"
-	"libs/core/application"
+	"go.uber.org/zap"
+	"libs/core/configuration"
 )
 
 func main() {
 	app := fx.New(
-		application.Module,
+		configuration.Module,
 		fx.Invoke(Run),
 	)
 
@@ -17,10 +17,9 @@ func main() {
 
 type Params struct {
 	fx.In
-	App *application.Application
+	Log *zap.SugaredLogger
 }
 
 func Run(params Params) {
-	result := params.App.Log("Way")
-	fmt.Println(result)
+	params.Log.Info("Hello Way!!!")
 }
