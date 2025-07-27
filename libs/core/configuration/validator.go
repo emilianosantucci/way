@@ -11,5 +11,5 @@ type ValidatorResult struct {
 }
 
 func NewValidator() ValidatorResult {
-	return ValidatorResult{Validator: validator.New()}
+	return ValidatorResult{Validator: validator.New(validator.WithRequiredStructEnabled())}
 }
