@@ -2,16 +2,21 @@ package migrations
 
 import (
 	"context"
-	"fmt"
 	"github.com/uptrace/bun"
 )
 
 func init() {
+	var (
+		domain  = "domain"
+		logUp   = loggerUp.Named(domain)
+		logDown = loggerDown.Named(domain)
+	)
+	
 	Migrations.MustRegister(func(ctx context.Context, db *bun.DB) error {
-		fmt.Println(" [up migration]")
+		logUp.Debug("Up message")
 		return nil
 	}, func(ctx context.Context, db *bun.DB) error {
-		fmt.Println(" [down migration]")
+		logDown.Debug("Down message")
 		return nil
 	})
 }

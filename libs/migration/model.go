@@ -10,9 +10,8 @@ import (
 
 type MigratorParams struct {
 	fx.In
-	DB         *bun.DB
-	Log        *zap.SugaredLogger
-	Migrations *migrate.Migrations `optional:"true"`
+	DB  *bun.DB
+	Log *zap.SugaredLogger
 }
 
 type MigratorResult struct {
