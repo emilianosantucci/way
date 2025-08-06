@@ -1,15 +1,12 @@
 package configuration
 
 import (
-	"context"
-	"database/sql"
 	"fmt"
-	"github.com/alexlast/bunzap"
-	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/dialect/pgdialect"
-	"github.com/uptrace/bun/driver/pgdriver"
+
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type DatabaseParams struct {
@@ -22,10 +19,10 @@ type DatabaseParams struct {
 
 type DatabaseResult struct {
 	fx.Out
-	DB *bun.DB
+	DB *gorm.DB
 }
 
-func NewDatabase(params DatabaseParams) DatabaseResult {
+func NewDatabase(params DatabaseParams) (DatabaseResult, error) {
 
 	dsn := params.Config.DB.Uri
 
@@ -41,27 +38,13 @@ func NewDatabase(params DatabaseParams) DatabaseResult {
 
 	params.Log.Debugf("Database connection string: %s", dsn)
 
-	conn := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	db := bun.NewDB(conn, pgdialect.New())
+	db, err := gorm.Open(postgres.Open(params.Config.DB.Uri), &gorm.Config{})
 
-	db.AddQueryHook(bunzap.NewQueryHook(bunzap.QueryHookOptions{
-		Logger: params.Logger,
-		//SlowDuration: 200 * time.Millisecond, // Omit to log all operations as debug
-	}))
-
-	params.Lc.Append(fx.Hook{
-		OnStart: func(ctx context.Context) error {
-			return db.PingContext(ctx)
-		},
-		OnStop: func(ctx context.Context) error {
-			if db != nil {
-				return db.Close()
-			}
-			return nil
-		},
-	})
+	if err != nil {
+		return DatabaseResult{}, err
+	}
 
 	return DatabaseResult{
 		DB: db,
-	}
+	}, nil
 }
