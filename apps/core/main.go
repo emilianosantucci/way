@@ -12,17 +12,13 @@ import (
 func main() {
 	app := fx.New(
 		configuration.Module,
+		application.Module,
 		fx.Invoke(RunDB),
 	)
 	app.Run()
 }
 
 func RunDB(db *gorm.DB) { // FIXME: remove me
-	err := db.AutoMigrate(&application.Application{})
-	if err != nil {
-		panic(err)
-	}
-
 	ctx := context.Background()
 
 	gorm.G[application.Application](db).Create(ctx, &application.Application{
