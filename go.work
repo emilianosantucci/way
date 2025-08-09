@@ -4,5 +4,4 @@ use (
 	./apps/core
 	./libs/core/application
 	./libs/core/configuration
-	./libs/migration
 )
