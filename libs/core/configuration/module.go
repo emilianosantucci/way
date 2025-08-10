@@ -7,7 +7,7 @@ import (
 )
 
 var Module = fx.Module("configuration",
-	fx.Provide(Read),
+	fx.Provide(NewConfiguration),
 	fx.Provide(NewLogger),
 	fx.Provide(NewDatabase),
 	fx.Provide(NewWeb),

@@ -10,67 +10,37 @@ import (
 )
 import "github.com/nats-io/nats-server/v2/server"
 
-type ServerParams struct {
-	fx.In
-	Configuration configuration.Configuration
-}
-
-type ServerResult struct {
-	fx.Out
-	NatsServer *server.Server
-}
-
-func NewServer(params ServerParams) (ServerResult, error) {
-	var cfg = params.Configuration
-
+func NewServer(config configuration.Configuration) (ns *server.Server, err error) {
 	opts := &server.Options{
 		ServerName:      "embedded",
 		JetStream:       true,
 		JetStreamDomain: "way",
 	}
 
-	ns, err := server.NewServer(opts)
+	ns, err = server.NewServer(opts)
 
 	if err != nil {
-		return ServerResult{}, err
+		return
 	}
 
 	ns.ConfigureLogger()
 	ns.Start()
 
-	if ready := ns.ReadyForConnections(time.Duration(cfg.Messaging.ServerReadyTimeout) * time.Second); !ready {
-		return ServerResult{}, errors.New("nats server startup timeout reached")
+	if ready := ns.ReadyForConnections(time.Duration(config.Messaging.ServerReadyTimeout) * time.Second); !ready {
+		return nil, errors.New("nats server startup timeout reached")
 	}
 
-	return ServerResult{
-		NatsServer: ns,
-	}, err
+	return
 }
 
-type ServerLifecycleParams struct {
-	fx.In
-	Lc         fx.Lifecycle
-	NatsServer *server.Server
-}
-
-func ServerLifecycle(params ServerLifecycleParams) {
-	var (
-		lc = params.Lc
-		ns = params.NatsServer
-	)
-	lc.Append(fx.Hook{
-		OnStart: func(ctx context.Context) error {
-			if ns != nil && !ns.Running() {
-				ns.Start()
-			}
-			return nil
-		},
-		OnStop: func(ctx context.Context) error {
+func ServerLifecycle(lc fx.Lifecycle, ns *server.Server) {
+	lc.Append(
+		fx.StopHook(func(ctx context.Context) (err error) {
 			if ns != nil && ns.Running() {
 				ns.Shutdown()
 				ns.WaitForShutdown()
 			}
-			return nil
-		},
-	})
+			return
+		}),
+	)
 }

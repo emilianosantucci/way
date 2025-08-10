@@ -2,28 +2,14 @@ package configuration
 
 import (
 	"fmt"
-	"go.uber.org/fx"
-	"go.uber.org/zap"
 	"log"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
-type LoggerParams struct {
-	fx.In
-	Configuration
-}
-
-type LoggerResult struct {
-	fx.Out
-	*zap.Logger
-	*zap.SugaredLogger
-}
-
-func NewLogger(params LoggerParams) LoggerResult {
-	var logger *zap.Logger
-	var err error
-
-	switch strings.ToLower(params.Configuration.Profile) {
+func NewLogger(config Configuration) (logger *zap.Logger, sugarLogger *zap.SugaredLogger, err error) {
+	switch strings.ToLower(config.Profile) {
 	case "development", "dev":
 		fmt.Printf("Logger config to: 'dev' mode.\n")
 		logger, err = zap.NewDevelopment()
@@ -31,7 +17,7 @@ func NewLogger(params LoggerParams) LoggerResult {
 		fmt.Printf("Logger config to: 'prod' mode.\n")
 		logger, err = zap.NewProduction()
 	default:
-		fmt.Printf("Unknown environment type: %s.\n", params.Configuration.Profile)
+		fmt.Printf("Unknown environment type: %s.\n", config.Profile)
 		logger = zap.NewExample()
 	}
 
@@ -39,5 +25,7 @@ func NewLogger(params LoggerParams) LoggerResult {
 		log.Fatalf("Could not initialize zap logger: %v", err)
 	}
 
-	return LoggerResult{Logger: logger, SugaredLogger: logger.Sugar()}
+	sugarLogger = logger.Sugar()
+
+	return
 }
