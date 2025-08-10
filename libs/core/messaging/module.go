@@ -7,9 +7,10 @@ import (
 )
 
 var Module = fx.Module("messaging",
-	fx.Provide(NewMessagingServer),
-	fx.Provide(NewMessagingClient),
-	fx.Invoke(RunMessaging),
+	fx.Provide(NewServer),
+	fx.Invoke(ServerLifecycle),
+	fx.Provide(NewClient),
+	fx.Invoke(ClientLifecycle),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}
 	}),

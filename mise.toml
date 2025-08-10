@@ -2,6 +2,7 @@
 go = "1.24"
 node = "latest"
 pnpm = "latest"
+"go:github.com/nats-io/natscli/nats" = { version = "latest", tags = "nats" }
 
 [env]
 MISE_GO_SET_GOPATH = true

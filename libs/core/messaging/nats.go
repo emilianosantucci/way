@@ -11,12 +11,19 @@ import (
 )
 import "github.com/nats-io/nats-server/v2/server"
 
-type MessagingServerResult struct {
+type ServerParams struct {
+	fx.In
+	Configuration configuration.Configuration
+}
+
+type ServerResult struct {
 	fx.Out
 	NatsServer *server.Server
 }
 
-func NewMessagingServer() (MessagingServerResult, error) {
+func NewServer(params ServerParams) (ServerResult, error) {
+	var cfg = params.Configuration
+
 	opts := &server.Options{
 		ServerName:      "embedded",
 		JetStream:       true,
@@ -26,65 +33,97 @@ func NewMessagingServer() (MessagingServerResult, error) {
 	ns, err := server.NewServer(opts)
 
 	if err != nil {
-		return MessagingServerResult{}, err
+		return ServerResult{}, err
 	}
 
 	ns.ConfigureLogger()
+	ns.Start()
 
-	return MessagingServerResult{
+	if ready := ns.ReadyForConnections(time.Duration(cfg.Messaging.ServerReadyTimeout) * time.Second); !ready {
+		return ServerResult{}, errors.New("nats server startup timeout reached")
+	}
+
+	return ServerResult{
 		NatsServer: ns,
 	}, err
 }
 
-type RunMessagingParams struct {
+type ServerLifecycleParams struct {
 	fx.In
 	Lc         fx.Lifecycle
 	NatsServer *server.Server
 }
 
-func RunMessaging(params RunMessagingParams) {
+func ServerLifecycle(params ServerLifecycleParams) {
 	var (
 		lc = params.Lc
 		ns = params.NatsServer
 	)
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			go ns.Start()
+			if ns != nil && !ns.Running() {
+				ns.Start()
+			}
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
-			ns.Shutdown()
-			go ns.WaitForShutdown()
+			if ns != nil && ns.Running() {
+				ns.Shutdown()
+				ns.WaitForShutdown()
+			}
 			return nil
 		},
 	})
 }
 
-type ConnectMessagingClientParams struct {
+type ClientParams struct {
 	fx.In
 	NatsServer    *server.Server
 	Configuration configuration.Configuration
 }
 
-type ConnectMessagingClientResult struct {
+type ClientResult struct {
 	fx.Out
 	NatsClient *nats.Conn
 }
 
-func NewMessagingClient(params ConnectMessagingClientParams) (ConnectMessagingClientResult, error) {
-	var (
-		cfg = params.Configuration
-		ns  = params.NatsServer
-	)
-
-	if ready := ns.ReadyForConnections(time.Duration(cfg.Messaging.ServerReadyTimeout) * time.Second); !ready {
-		return ConnectMessagingClientResult{}, errors.New("nats server startup timeout reached")
-	}
+func NewClient(params ClientParams) (ClientResult, error) {
+	var ns = params.NatsServer
 
 	nc, err := nats.Connect(ns.ClientURL())
 
-	return ConnectMessagingClientResult{
+	return ClientResult{
 		NatsClient: nc,
 	}, err
+}
 
+type ClientLifecycleParams struct {
+	fx.In
+	Lc         fx.Lifecycle
+	NatsClient *nats.Conn
+	NatsServer *server.Server
+}
+
+func ClientLifecycle(params ClientLifecycleParams) {
+	var (
+		lc  = params.Lc
+		nc  = params.NatsClient
+		ns  = params.NatsServer
+		err error
+	)
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			if nc != nil && !nc.IsConnected() {
+				nc, err = nats.Connect(ns.ClientURL())
+			}
+			return err
+		},
+		OnStop: func(ctx context.Context) error {
+			if nc != nil && nc.IsConnected() {
+				err = nc.Flush()
+				nc.Close()
+			}
+			return err
+		},
+	})
 }
