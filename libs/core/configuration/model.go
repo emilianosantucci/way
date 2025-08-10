@@ -1,9 +1,10 @@
 package configuration
 
 type Configuration struct {
-	Profile string                `mapstructure:"PROFILE"`
-	DB      DatabaseConfiguration `mapstructure:",squash"`
-	Web     WebConfiguration      `mapstructure:",squash"`
+	Profile   string                `mapstructure:"PROFILE"`
+	DB        DatabaseConfiguration `mapstructure:",squash"`
+	Web       WebConfiguration      `mapstructure:",squash"`
+	Messaging Messaging             `mapstructure:",squash"`
 }
 
 type DatabaseConfiguration struct {
@@ -18,4 +19,8 @@ type DatabaseConfiguration struct {
 type WebConfiguration struct {
 	Host string `mapstructure:"WEB_HOST"`
 	Port int    `mapstructure:"WEB_PORT"`
+}
+
+type Messaging struct {
+	ServerReadyTimeout int `mapstructure:"MESSAGING_SERVER_READY_TIMEOUT"`
 }
