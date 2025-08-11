@@ -1,8 +1,9 @@
-package configuration
+package web
 
 import (
 	"context"
 	"fmt"
+	"libs/core/environment"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
@@ -13,7 +14,7 @@ func NewWeb() *fiber.App {
 	return fiber.New()
 }
 
-func RunWeb(log *zap.SugaredLogger, lc fx.Lifecycle, app *fiber.App, config Configuration) {
+func RunWeb(log *zap.SugaredLogger, lc fx.Lifecycle, app *fiber.App, config environment.Configuration) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) (err error) {
 			go func() {

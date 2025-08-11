@@ -1,8 +1,8 @@
 {
-  "name": "configuration",
+  "name": "environment",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/configuration",
+  "sourceRoot": "libs/core/environment",
   "tags": [],
   "targets": {
     "test": {

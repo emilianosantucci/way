@@ -3,6 +3,10 @@ go 1.24
 use (
 	./apps/core
 	./libs/core/application
-	./libs/core/configuration
+	./libs/core/database
+	./libs/core/environment
+	./libs/core/logging
 	./libs/core/messaging
+	./libs/core/validation
+	./libs/core/web
 )

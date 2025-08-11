@@ -1,4 +1,4 @@
-package configuration
+package environment
 
 import (
 	"go.uber.org/fx"
@@ -6,13 +6,8 @@ import (
 	"go.uber.org/zap"
 )
 
-var Module = fx.Module("configuration",
+var Module = fx.Module("environment",
 	fx.Provide(NewConfiguration),
-	fx.Provide(NewLogger),
-	fx.Provide(NewDatabase),
-	fx.Provide(NewWeb),
-	fx.Provide(NewValidator),
-	fx.Invoke(RunWeb),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}
 	}),

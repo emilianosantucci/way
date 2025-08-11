@@ -1,4 +1,4 @@
-package configuration
+package environment
 
 type Configuration struct {
 	Profile   string                `mapstructure:"PROFILE"`

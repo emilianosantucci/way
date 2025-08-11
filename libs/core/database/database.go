@@ -1,14 +1,15 @@
-package configuration
+package database
 
 import (
 	"fmt"
+	"libs/core/environment"
 
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func NewDatabase(config Configuration, log *zap.SugaredLogger) (db *gorm.DB, err error) {
+func NewDatabase(config environment.Configuration, log *zap.SugaredLogger) (db *gorm.DB, err error) {
 	dsn := config.DB.Uri
 
 	if dsn == "" {

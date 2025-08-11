@@ -1,14 +1,15 @@
-package configuration
+package logging
 
 import (
 	"fmt"
+	"libs/core/environment"
 	"log"
 	"strings"
 
 	"go.uber.org/zap"
 )
 
-func NewLogger(config Configuration) (logger *zap.Logger, sugarLogger *zap.SugaredLogger, err error) {
+func NewLogger(config environment.Configuration) (logger *zap.Logger, sugarLogger *zap.SugaredLogger, err error) {
 	switch strings.ToLower(config.Profile) {
 	case "development", "dev":
 		fmt.Printf("Logger config to: 'dev' mode.\n")

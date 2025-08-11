@@ -3,14 +3,14 @@ package messaging
 import (
 	"context"
 	"errors"
-	"libs/core/configuration"
+	"libs/core/environment"
 	"time"
 
 	"go.uber.org/fx"
 )
 import "github.com/nats-io/nats-server/v2/server"
 
-func NewServer(config configuration.Configuration) (ns *server.Server, err error) {
+func NewServer(config environment.Configuration) (ns *server.Server, err error) {
 	opts := &server.Options{
 		ServerName:      "embedded",
 		JetStream:       true,

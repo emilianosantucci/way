@@ -3,8 +3,12 @@ package main
 import (
 	"context"
 	"libs/core/application"
-	"libs/core/configuration"
+	"libs/core/database"
+	"libs/core/environment"
+	"libs/core/logging"
 	"libs/core/messaging"
+	"libs/core/validation"
+	"libs/core/web"
 
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
@@ -15,9 +19,13 @@ import (
 
 func main() {
 	app := fx.New(
-		configuration.Module,
-		application.Module,
+		environment.Module,
+		logging.Module,
+		validation.Module,
+		database.Module,
+		web.Module,
 		messaging.Module,
+		application.Module,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()
