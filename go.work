@@ -5,6 +5,7 @@ use (
 	./libs/core/application
 	./libs/core/database
 	./libs/core/environment
+	./libs/core/framework
 	./libs/core/logging
 	./libs/core/messaging
 	./libs/core/validation

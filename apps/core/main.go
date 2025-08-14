@@ -31,11 +31,9 @@ func main() {
 	app.Run()
 }
 
-func TestingDI(db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.Logger) { // FIXME: remove me
+func TestingDI(repo *application.Repository, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.Logger) { // FIXME: remove me
 	ctx := context.Background()
-	gorm.G[application.Application](db).Create(ctx, &application.Application{
-		Name: "test",
-	})
+	repo.Create(ctx, &application.Application{Name: "prova"})
 
 	var (
 		sub *nats.Subscription
