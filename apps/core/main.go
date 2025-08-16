@@ -33,25 +33,28 @@ func main() {
 	app.Run()
 }
 
-func TestingDI(repo *application.Repository, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.Logger) { // FIXME: remove me
+func TestingDI(svc *application.Service, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.SugaredLogger) { // FIXME: remove me
 	ctx := context.Background()
 
 	var (
 		sub *nats.Subscription
 		err error
+		app *model.Application
 	)
 
-	err = repo.Create(ctx, &model.Application{Name: "prova"})
+	app, err = svc.Create(ctx, &model.NewApplication{Name: "svc-app", Version: "1.0.0"})
+
+	log.Debugf("App: %+v", app)
 
 	if err != nil {
 		log.Error(err.Error())
 	}
 
-	err = repo.Update(ctx, "d65c285c-42ee-462c-a9ed-bd29842ce1f3", &model.Application{Name: "prova2"})
-
-	if err != nil {
-		log.Error(err.Error())
-	}
+	//err = repo.Update(ctx, "d65c285c-42ee-462c-a9ed-bd29842ce1f3", &model.Application{Name: "prova2"})
+	//
+	//if err != nil {
+	//	log.Error(err.Error())
+	//}
 
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {

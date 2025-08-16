@@ -12,6 +12,7 @@ import (
 var Module = fx.Module("application",
 	fx.Invoke(MigrateDomain),
 	fx.Provide(NewRepository),
+	fx.Provide(NewService),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}
 	}),
