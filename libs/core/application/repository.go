@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/emilianosantucci/way/core/application/model"
+	"github.com/emilianosantucci/way/core/common"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -43,15 +44,19 @@ func (r *Repository) Create(ctx context.Context, entity *model.Application) (err
 	return gorm.G[model.Application](r.db).Create(ctx, entity)
 }
 
-func (r *Repository) Update(ctx context.Context, id string, entity *model.Application) (err error) {
+func (r *Repository) Update(ctx context.Context, entity *model.Application) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[model.Application](r.db).Where("id = ?", id).Updates(ctx, *entity)
+	rowsAffected, err = gorm.G[model.Application](r.db).Where("id = ?", entity.ID).Updates(ctx, *entity)
 	if err == nil && rowsAffected == 0 {
-		err = gorm.ErrRecordNotFound
+		err = common.ErrApplicationNotFound
 	}
 	return
 }
 
 func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (entity *model.Application, err error) {
 	return gorm.G[*model.Application](r.db).Where("id = ?", id).First(ctx)
+}
+
+func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, version string) (entity *model.Application, err error) {
+	return gorm.G[*model.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
 }

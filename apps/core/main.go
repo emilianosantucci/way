@@ -66,11 +66,13 @@ func TestingDI(svc *application.Service, db *gorm.DB, ns *server.Server, nc *nat
 		log.Error(err.Error())
 	}
 
-	//err = repo.Update(ctx, "d65c285c-42ee-462c-a9ed-bd29842ce1f3", &model.Application{Name: "prova2"})
-	//
-	//if err != nil {
-	//	log.Error(err.Error())
-	//}
+	app, err = svc.Update(ctx, &model.UpdateApplication{ID: id, Version: "1.1.0"})
+
+	if err != nil {
+		log.Error(err.Error())
+	}
+
+	log.Debugf("Updated app: %+v", app)
 
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {

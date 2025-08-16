@@ -25,7 +25,7 @@ func NewDatabase(config environment.Configuration, log *zap.SugaredLogger) (db *
 
 	log.Debugf("Database connection string: %s", dsn)
 
-	db, err = gorm.Open(postgres.Open(config.DB.Uri), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(config.DB.Uri), &gorm.Config{TranslateError: true})
 
 	return
 }
