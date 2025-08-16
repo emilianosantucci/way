@@ -1,6 +1,8 @@
 package application
 
 import (
+	"libs/core/application/model"
+
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 	"go.uber.org/zap"
@@ -16,5 +18,5 @@ var Module = fx.Module("application",
 )
 
 func MigrateDomain(db *gorm.DB) error {
-	return db.AutoMigrate(&Application{})
+	return db.AutoMigrate(&model.Application{})
 }
