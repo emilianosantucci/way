@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"libs/core/application"
+	"libs/core/application/model"
 	"libs/core/database"
 	"libs/core/environment"
 	"libs/core/logging"
@@ -33,12 +34,23 @@ func main() {
 
 func TestingDI(repo *application.Repository, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.Logger) { // FIXME: remove me
 	ctx := context.Background()
-	repo.Create(ctx, &application.Application{Name: "prova"})
 
 	var (
 		sub *nats.Subscription
 		err error
 	)
+
+	err = repo.Create(ctx, &model.Application{Name: "prova"})
+
+	if err != nil {
+		log.Error(err.Error())
+	}
+
+	err = repo.Update(ctx, "d65c285c-42ee-462c-a9ed-bd29842ce1f3", &model.Application{Name: "prova2"})
+
+	if err != nil {
+		log.Error(err.Error())
+	}
 
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
