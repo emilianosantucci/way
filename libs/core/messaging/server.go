@@ -3,8 +3,9 @@ package messaging
 import (
 	"context"
 	"errors"
-	"libs/core/environment"
 	"time"
+
+	"github.com/emilianosantucci/way/core/environment"
 
 	"go.uber.org/fx"
 )

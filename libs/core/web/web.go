@@ -3,7 +3,8 @@ package web
 import (
 	"context"
 	"fmt"
-	"libs/core/environment"
+
+	"github.com/emilianosantucci/way/core/environment"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"

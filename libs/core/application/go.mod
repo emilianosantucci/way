@@ -1,4 +1,4 @@
-module libs/core/application
+module github.com/emilianosantucci/way/core/application
 
 go 1.24
 

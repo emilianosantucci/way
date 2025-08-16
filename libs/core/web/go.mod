@@ -1,4 +1,4 @@
-module libs/core/web
+module github.com/emilianosantucci/way/core/web
 
 go 1.24.0
 

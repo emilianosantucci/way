@@ -1,4 +1,4 @@
-module libs/core/environment
+module github.com/emilianosantucci/way/core/environment
 
 go 1.24
 

@@ -1,4 +1,4 @@
-module libs/core/logging
+module github.com/emilianosantucci/way/core/logging
 
 go 1.24
 

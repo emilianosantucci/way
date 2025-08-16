@@ -2,7 +2,7 @@ package application
 
 import (
 	"context"
-	"libs/core/application/model"
+	"github.com/emilianosantucci/way/core/application/model"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"

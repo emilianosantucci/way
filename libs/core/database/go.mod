@@ -1,4 +1,4 @@
-module libs/core/database
+module github.com/emilianosantucci/way/core/database
 
 go 1.24
 

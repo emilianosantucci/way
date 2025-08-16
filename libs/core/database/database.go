@@ -2,7 +2,8 @@ package database
 
 import (
 	"fmt"
-	"libs/core/environment"
+
+	"github.com/emilianosantucci/way/core/environment"
 
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"

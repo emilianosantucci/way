@@ -2,9 +2,10 @@ package logging
 
 import (
 	"fmt"
-	"libs/core/environment"
 	"log"
 	"strings"
+
+	"github.com/emilianosantucci/way/core/environment"
 
 	"go.uber.org/zap"
 )

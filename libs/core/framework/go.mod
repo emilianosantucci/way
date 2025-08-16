@@ -1,4 +1,4 @@
-module libs/core/framework
+module github.com/emilianosantucci/way/core/framework
 
 go 1.24
 
