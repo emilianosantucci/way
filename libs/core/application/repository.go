@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+
 	"github.com/emilianosantucci/way/core/application/model"
 
 	"github.com/google/uuid"
@@ -51,6 +52,6 @@ func (r *Repository) Update(ctx context.Context, id string, entity *model.Applic
 	return
 }
 
-func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (entity model.Application, err error) {
-	return gorm.G[model.Application](r.db).Where("id = ?", id).First(ctx)
+func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (entity *model.Application, err error) {
+	return gorm.G[*model.Application](r.db).Where("id = ?", id).First(ctx)
 }

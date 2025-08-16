@@ -11,6 +11,7 @@ import (
 	"github.com/emilianosantucci/way/core/messaging"
 	"github.com/emilianosantucci/way/core/validation"
 	"github.com/emilianosantucci/way/core/web"
+	"github.com/google/uuid"
 
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
@@ -40,11 +41,26 @@ func TestingDI(svc *application.Service, db *gorm.DB, ns *server.Server, nc *nat
 		sub *nats.Subscription
 		err error
 		app *model.Application
+		id  uuid.UUID
 	)
 
 	app, err = svc.Create(ctx, &model.NewApplication{Name: "svc-app", Version: "1.0.0"})
 
 	log.Debugf("App: %+v", app)
+
+	if err != nil {
+		log.Error(err.Error())
+	}
+
+	id, err = uuid.Parse("37a44bf5-8037-4a1a-9f83-f0ace1931554")
+
+	if err != nil {
+		log.Error(err.Error())
+	}
+
+	app, err = svc.FindById(ctx, id)
+
+	log.Debugf("Find by id app: %+v", app)
 
 	if err != nil {
 		log.Error(err.Error())

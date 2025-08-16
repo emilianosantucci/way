@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/emilianosantucci/way/core/application/model"
+	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
 
 	"github.com/go-playground/validator/v10"
@@ -32,4 +33,12 @@ func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app
 		return
 	}
 	return app, s.repository.Create(ctx, app)
+}
+
+func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
+	err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122")
+	if err != nil {
+		return
+	}
+	return s.repository.FindById(ctx, id)
 }
