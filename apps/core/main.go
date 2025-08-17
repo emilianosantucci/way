@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 
-	"github.com/emilianosantucci/way/core/application"
-	"github.com/emilianosantucci/way/core/application/model"
-	"github.com/emilianosantucci/way/core/database"
-	"github.com/emilianosantucci/way/core/environment"
-	"github.com/emilianosantucci/way/core/logging"
-	"github.com/emilianosantucci/way/core/messaging"
-	"github.com/emilianosantucci/way/core/validation"
-	"github.com/emilianosantucci/way/core/web"
+	"libs/core/application"
+	"libs/core/application/model"
+	"libs/core/database"
+	"libs/core/environment"
+	"libs/core/logging"
+	"libs/core/messaging"
+	"libs/core/validation"
+	"libs/core/web"
+
 	"github.com/google/uuid"
 
 	"github.com/nats-io/nats-server/v2/server"

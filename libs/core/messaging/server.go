@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/emilianosantucci/way/core/environment"
+	"libs/core/environment"
 
 	"go.uber.org/fx"
 )

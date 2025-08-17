@@ -3,8 +3,8 @@ package application
 import (
 	"context"
 
-	"github.com/emilianosantucci/way/core/application/model"
-	"github.com/emilianosantucci/way/core/common"
+	"libs/core/application/model"
+	"libs/core/common"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"

@@ -1,4 +1,4 @@
-module github.com/emilianosantucci/way/core/messaging
+module libs/core/messaging
 
 go 1.24.0
 

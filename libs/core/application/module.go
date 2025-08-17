@@ -1,7 +1,7 @@
 package application
 
 import (
-	"github.com/emilianosantucci/way/core/application/model"
+	"libs/core/application/model"
 
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"

@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/emilianosantucci/way/core/application/model"
-	"github.com/emilianosantucci/way/core/common"
+	"libs/core/application/model"
+	"libs/core/common"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/jinzhu/copier"

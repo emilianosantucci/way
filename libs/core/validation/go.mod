@@ -1,4 +1,4 @@
-module github.com/emilianosantucci/way/core/validation
+module libs/core/validation
 
 go 1.24
 

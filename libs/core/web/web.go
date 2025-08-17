@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/emilianosantucci/way/core/environment"
+	"libs/core/environment"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
