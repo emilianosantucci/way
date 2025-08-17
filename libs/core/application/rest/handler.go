@@ -1,11 +1,14 @@
 package rest
 
 import (
+	"errors"
 	"libs/core/application/model"
 	"libs/core/application/service"
+	"libs/core/common"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
+	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
 	"go.uber.org/zap"
 )
@@ -24,31 +27,46 @@ func NewRest(service *service.Service, log *zap.SugaredLogger, validator *valida
 	}
 }
 
-func (r *Handler) Create(ctx fiber.Ctx) (err error) {
+func (h *Handler) Create(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	dto := new(NewApplication)
-	err = ctx.Bind().Body(dto)
-	if err != nil {
+
+	if err = ctx.Bind().Body(dto); err != nil {
 		return
 	}
 
-	err = r.validator.StructCtx(ctx, dto)
-	if err != nil {
+	if err = h.validator.StructCtx(ctx, dto); err != nil {
 		return
 	}
 
 	newApp := new(model.NewApplication)
-	err = copier.Copy(newApp, dto)
-	if err != nil {
+	if err = copier.Copy(newApp, dto); err != nil {
 		return
 	}
 
-	app, err := r.service.Create(ctx, newApp)
-
-	if err != nil {
+	var app *model.Application
+	if app, err = h.service.Create(ctx, newApp); err != nil {
 		return
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(app)
+}
+
+func (h *Handler) FindById(ctx fiber.Ctx) (err error) {
+	id := ctx.Params("id")
+
+	if err = h.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
+		return
+	}
+
+	var app *model.Application
+	if app, err = h.service.FindById(ctx, uuid.MustParse(id)); err != nil {
+		if errors.Is(err, common.ErrApplicationNotFound) {
+			return ctx.Status(fiber.StatusNotFound).JSON(err)
+		}
+		return
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(app)
 }

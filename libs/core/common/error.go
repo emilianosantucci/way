@@ -2,6 +2,7 @@ package common
 
 import "errors"
 
+//goland:noinspection GoUnusedGlobalVariable
 var (
 	ErrInvalidID                               = errors.New("id not set or not valid uuid v4")
 	ErrApplicationNotFound                     = errors.New("application not found")

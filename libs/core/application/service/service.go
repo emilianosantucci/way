@@ -27,33 +27,29 @@ func NewService(repository *repository.Repository, validator *validator.Validate
 }
 
 func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app *model.Application, err error) {
-	err = s.validator.StructCtx(ctx, newApp)
-	if err != nil {
+	if err = s.validator.StructCtx(ctx, newApp); err != nil {
 		return
 	}
+
 	app = new(model.Application)
-	err = copier.Copy(&app, &newApp)
-	if err != nil {
+	if err = copier.Copy(&app, &newApp); err != nil {
 		return
 	}
+
 	return app, s.repository.Create(ctx, app)
 }
 
 func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (app *model.Application, err error) {
-	err = s.validator.StructCtx(ctx, updApp)
-	if err != nil {
+	if err = s.validator.StructCtx(ctx, updApp); err != nil {
 		return
 	}
 
 	app = new(model.Application)
-
-	err = copier.Copy(&app, &updApp)
-	if err != nil {
+	if err = copier.Copy(&app, &updApp); err != nil {
 		return
 	}
 
-	err = s.repository.Update(ctx, app)
-	if errors.Is(err, gorm.ErrDuplicatedKey) {
+	if err = s.repository.Update(ctx, app); errors.Is(err, gorm.ErrDuplicatedKey) {
 		err = common.ErrApplicationWithSameNameAndVersionExists
 	}
 
@@ -61,8 +57,7 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 }
 
 func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
-	err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122")
-	if err != nil {
+	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
 		return
 	}
 	return s.repository.FindById(ctx, id)

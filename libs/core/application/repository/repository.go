@@ -23,16 +23,14 @@ func (r *Repository) withTx(tx *gorm.DB) *Repository {
 }
 
 func (r *Repository) Transaction(ctx context.Context, fn func(repo *Repository) error) (err error) {
-	tx := r.db.WithContext(ctx).Begin()
-
-	if tx.Error != nil {
+	var tx *gorm.DB
+	if tx = r.db.WithContext(ctx).Begin(); tx.Error != nil {
 		return tx.Error
 	}
 
 	repo := r.withTx(tx)
-	err = fn(repo)
 
-	if err != nil {
+	if err = fn(repo); err != nil {
 		tx.Rollback()
 		return
 	}
