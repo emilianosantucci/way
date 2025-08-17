@@ -1,10 +1,11 @@
-package application
+package service
 
 import (
 	"context"
 	"errors"
 
 	"libs/core/application/model"
+	"libs/core/application/repository"
 	"libs/core/common"
 
 	"github.com/go-playground/validator/v10"
@@ -14,11 +15,11 @@ import (
 )
 
 type Service struct {
-	repository *Repository
+	repository *repository.Repository
 	validator  *validator.Validate
 }
 
-func NewService(repository *Repository, validator *validator.Validate) *Service {
+func NewService(repository *repository.Repository, validator *validator.Validate) *Service {
 	return &Service{
 		repository: repository,
 		validator:  validator,

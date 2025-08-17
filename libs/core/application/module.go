@@ -2,6 +2,9 @@ package application
 
 import (
 	"libs/core/application/model"
+	"libs/core/application/repository"
+	"libs/core/application/rest"
+	"libs/core/application/service"
 
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
@@ -11,8 +14,10 @@ import (
 
 var Module = fx.Module("application",
 	fx.Invoke(MigrateDomain),
-	fx.Provide(NewRepository),
-	fx.Provide(NewService),
+	fx.Provide(repository.NewRepository),
+	fx.Provide(service.NewService),
+	fx.Provide(rest.NewRest),
+	fx.Invoke(rest.RegisterRoutes),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}
 	}),

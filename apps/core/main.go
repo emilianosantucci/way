@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"libs/core/application/service"
 
 	"libs/core/application"
 	"libs/core/application/model"
@@ -35,7 +36,7 @@ func main() {
 	app.Run()
 }
 
-func TestingDI(svc *application.Service, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.SugaredLogger) { // FIXME: remove me
+func TestingDI(svc *service.Service, db *gorm.DB, ns *server.Server, nc *nats.Conn, lc fx.Lifecycle, log *zap.SugaredLogger) { // FIXME: remove me
 	ctx := context.Background()
 
 	var (
