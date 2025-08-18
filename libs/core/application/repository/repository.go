@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
+	"libs/core/application/repository/entity"
 
-	"libs/core/application/model"
 	"libs/core/common"
 
 	"github.com/google/uuid"
@@ -16,6 +16,10 @@ type Repository struct {
 
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
+}
+
+func RegisterEntity(db *gorm.DB) error {
+	return db.AutoMigrate(&entity.Application{})
 }
 
 func (r *Repository) withTx(tx *gorm.DB) *Repository {
@@ -38,23 +42,23 @@ func (r *Repository) Transaction(ctx context.Context, fn func(repo *Repository) 
 	return tx.Commit().Error
 }
 
-func (r *Repository) Create(ctx context.Context, entity *model.Application) (err error) {
-	return gorm.G[model.Application](r.db).Create(ctx, entity)
+func (r *Repository) Create(ctx context.Context, ent *entity.Application) (err error) {
+	return gorm.G[entity.Application](r.db).Create(ctx, ent)
 }
 
-func (r *Repository) Update(ctx context.Context, entity *model.Application) (err error) {
+func (r *Repository) Update(ctx context.Context, ent *entity.Application) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[model.Application](r.db).Where("id = ?", entity.ID).Updates(ctx, *entity)
+	rowsAffected, err = gorm.G[entity.Application](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
 	if err == nil && rowsAffected == 0 {
 		err = common.ErrApplicationNotFound
 	}
 	return
 }
 
-func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (entity *model.Application, err error) {
-	return gorm.G[*model.Application](r.db).Where("id = ?", id).First(ctx)
+func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.Application, err error) {
+	return gorm.G[*entity.Application](r.db).Where("id = ?", id).First(ctx)
 }
 
-func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, version string) (entity *model.Application, err error) {
-	return gorm.G[*model.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
+func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, version string) (ent *entity.Application, err error) {
+	return gorm.G[*entity.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
 }

@@ -36,7 +36,7 @@ func (r *Repository[T]) AddPostCreateHook(hook func(ctx context.Context, entity 
 }
 
 func (r *Repository[T]) Create(ctx context.Context, entity *T) error {
-	// Esegui pre-hooks specifici per Create
+	// Esegui pre-hooks specifici per create
 	for _, hook := range r.hooks.PreCreate {
 		if err := hook(ctx, entity); err != nil {
 			return err
@@ -46,7 +46,7 @@ func (r *Repository[T]) Create(ctx context.Context, entity *T) error {
 	err := r.repo.Create(ctx, entity)
 
 	if err == nil {
-		// Esegui post-hooks specifici per Create
+		// Esegui post-hooks specifici per create
 		for _, hook := range r.hooks.PostCreate {
 			if err := hook(ctx, entity); err != nil {
 				return err

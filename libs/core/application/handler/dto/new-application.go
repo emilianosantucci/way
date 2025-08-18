@@ -1,4 +1,4 @@
-package rest
+package dto
 
 type NewApplication struct {
 	Name    string `json:"name"`

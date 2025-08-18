@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
-	"libs/core/application/service"
-
 	"libs/core/application"
-	"libs/core/application/model"
+	"libs/core/application/service"
+	"libs/core/application/service/model"
 	"libs/core/database"
 	"libs/core/environment"
 	"libs/core/logging"

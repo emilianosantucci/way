@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-
-	"libs/core/application/model"
 	"libs/core/application/repository"
+	"libs/core/application/repository/entity"
+	"libs/core/application/service/model"
 	"libs/core/common"
 
 	"github.com/go-playground/validator/v10"
@@ -31,12 +31,16 @@ func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app
 		return
 	}
 
-	app = new(model.Application)
-	if err = copier.Copy(&app, &newApp); err != nil {
+	ent := new(entity.Application)
+	if err = copier.Copy(ent, newApp); err != nil {
 		return
 	}
 
-	return app, s.repository.Create(ctx, app)
+	if err = s.repository.Create(ctx, ent); err != nil {
+		return
+	}
+
+	return s.transformEntityToModel(ent)
 }
 
 func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (app *model.Application, err error) {
@@ -44,21 +48,32 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 		return
 	}
 
-	app = new(model.Application)
-	if err = copier.Copy(&app, &updApp); err != nil {
+	ent := new(entity.Application)
+	if err = copier.Copy(ent, updApp); err != nil {
 		return
 	}
 
-	if err = s.repository.Update(ctx, app); errors.Is(err, gorm.ErrDuplicatedKey) {
+	if err = s.repository.Update(ctx, ent); errors.Is(err, gorm.ErrDuplicatedKey) {
 		err = common.ErrApplicationWithSameNameAndVersionExists
 	}
 
-	return
+	return s.transformEntityToModel(ent)
 }
 
 func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
 	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
 		return
 	}
-	return s.repository.FindById(ctx, id)
+
+	var ent *entity.Application
+	if ent, err = s.repository.FindById(ctx, id); err != nil {
+		return
+	}
+
+	return s.transformEntityToModel(ent)
+}
+
+func (s *Service) transformEntityToModel(ent *entity.Application) (mod *model.Application, err error) {
+	mod = new(model.Application)
+	return mod, copier.Copy(mod, ent)
 }
