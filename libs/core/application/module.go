@@ -1,7 +1,7 @@
 package application
 
 import (
-	"libs/core/application/handler"
+	"libs/core/application/api"
 	"libs/core/application/repository"
 	"libs/core/application/service"
 
@@ -19,9 +19,9 @@ var Module = fx.Module("application",
 	fx.Provide(service.NewService),
 	fx.Provide(
 		fx.Private,
-		handler.NewRest,
+		api.NewRest,
 	),
-	fx.Invoke(handler.RegisterRestHandler),
+	fx.Invoke(api.RegisterApiRest),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}
 	}),

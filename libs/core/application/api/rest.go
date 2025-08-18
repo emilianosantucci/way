@@ -1,8 +1,8 @@
-package handler
+package api
 
 import (
 	"errors"
-	"libs/core/application/handler/dto"
+	"libs/core/application/api/dto"
 	"libs/core/application/service"
 	"libs/core/application/service/model"
 	"libs/core/common"
@@ -14,12 +14,6 @@ import (
 	"go.uber.org/zap"
 )
 
-type Rest struct {
-	service   *service.Service
-	log       *zap.SugaredLogger
-	validator *validator.Validate
-}
-
 func NewRest(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate) *Rest {
 	rest := &Rest{
 		service,
@@ -30,9 +24,15 @@ func NewRest(service *service.Service, log *zap.SugaredLogger, validator *valida
 	return rest
 }
 
-func RegisterRestHandler(app *fiber.App, handler *Rest) {
+func RegisterApiRest(app *fiber.App, handler *Rest) {
 	app.Post("/applications", handler.create)
 	app.Get("/applications/:id", handler.findById)
+}
+
+type Rest struct {
+	service   *service.Service
+	log       *zap.SugaredLogger
+	validator *validator.Validate
 }
 
 func (h *Rest) create(ctx fiber.Ctx) (err error) {

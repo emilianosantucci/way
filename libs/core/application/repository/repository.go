@@ -10,16 +10,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository struct {
-	db *gorm.DB
-}
-
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
 }
 
 func RegisterEntity(db *gorm.DB) error {
 	return db.AutoMigrate(&entity.Application{})
+}
+
+type Repository struct {
+	db *gorm.DB
 }
 
 func (r *Repository) withTx(tx *gorm.DB) *Repository {

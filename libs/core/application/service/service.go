@@ -14,16 +14,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type Service struct {
-	repository *repository.Repository
-	validator  *validator.Validate
-}
-
 func NewService(repository *repository.Repository, validator *validator.Validate) *Service {
 	return &Service{
 		repository: repository,
 		validator:  validator,
 	}
+}
+
+type Service struct {
+	repository *repository.Repository
+	validator  *validator.Validate
 }
 
 func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app *model.Application, err error) {
