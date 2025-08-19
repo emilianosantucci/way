@@ -5,7 +5,7 @@ import (
 )
 
 type Application struct {
-	ID      uuid.UUID `json:"id"`
-	Name    string    `json:"name"`
-	Version string    `json:"version"`
+	ID      uuid.UUID `json:"id" validate:"required,uuid4_rfc4122"`
+	Name    string    `json:"name" validate:"required,min=3,max=50"`
+	Version string    `json:"version" validate:"required,min=1,max=50"`
 }

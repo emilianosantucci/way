@@ -83,10 +83,6 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	id := ctx.Params("id")
-	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
-		return
-	}
-
 	request := new(dto.UpdateApplication)
 	if err = ctx.Bind().Body(request); err != nil {
 		return
