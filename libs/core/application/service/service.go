@@ -61,6 +61,13 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 	return s.FindById(ctx, ent.ID)
 }
 
+func (s *Service) Delete(ctx context.Context, id uuid.UUID) (err error) {
+	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
+		return
+	}
+	return s.repository.Delete(ctx, id)
+}
+
 func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
 	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
 		return

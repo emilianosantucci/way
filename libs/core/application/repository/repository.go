@@ -55,6 +55,15 @@ func (r *Repository) Update(ctx context.Context, ent *entity.Application) (err e
 	return
 }
 
+func (r *Repository) Delete(ctx context.Context, id uuid.UUID) (err error) {
+	var rowsAffected int
+	rowsAffected, err = gorm.G[entity.Application](r.db).Where("id = ?", id).Delete(ctx)
+	if err == nil && rowsAffected == 0 {
+		err = common.ErrApplicationNotFound
+	}
+	return
+}
+
 func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.Application, err error) {
 	return gorm.G[*entity.Application](r.db).Where("id = ?", id).First(ctx)
 }

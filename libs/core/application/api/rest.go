@@ -27,6 +27,7 @@ func NewRest(service *service.Service, log *zap.SugaredLogger, validator *valida
 func RegisterApiRest(app *fiber.App, handler *Rest) {
 	app.Post("/applications", handler.create)
 	app.Put("/applications/:id", handler.update)
+	app.Delete("/applications/:id", handler.delete)
 	app.Get("/applications/:id", handler.findById)
 }
 
@@ -107,4 +108,20 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(app)
+}
+
+func (r *Rest) delete(ctx fiber.Ctx) (err error) {
+	id := ctx.Params("id")
+	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
+		return
+	}
+
+	if err = r.service.Delete(ctx, uuid.MustParse(id)); err != nil {
+		if errors.Is(err, common.ErrApplicationNotFound) {
+			return ctx.Status(fiber.StatusNotFound).JSON(err)
+		}
+		return
+	}
+
+	return ctx.SendStatus(fiber.StatusNoContent)
 }

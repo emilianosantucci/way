@@ -6,7 +6,7 @@
 out/
 .idea_modules/
 
-## Go
+# Go
 
 # Binaries for programs and plugins
 *.exe
@@ -24,8 +24,13 @@ out/
 # Dependency directories
 vendor/
 
-## Nx
+# Nx
 .nx/
+.nx/cache
+.nx/workspace-data
+.github/instructions/nx.instructions.md
+
+# Node
 dist/
 tmp/
 node_modules/
@@ -53,9 +58,8 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-
-
-.nx/cache
-.nx/workspace-data
+# Cursor
 .cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+
+# Windsurf
+.windsurf/
