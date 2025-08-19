@@ -26,6 +26,7 @@ func NewRest(service *service.Service, log *zap.SugaredLogger, validator *valida
 
 func RegisterApiRest(app *fiber.App, handler *Rest) {
 	app.Post("/applications", handler.create)
+	app.Put("/applications/:id", handler.update)
 	app.Get("/applications/:id", handler.findById)
 }
 
@@ -35,7 +36,7 @@ type Rest struct {
 	validator *validator.Validate
 }
 
-func (h *Rest) create(ctx fiber.Ctx) (err error) {
+func (r *Rest) create(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	request := new(dto.NewApplication)
@@ -44,7 +45,7 @@ func (h *Rest) create(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	if err = h.validator.StructCtx(ctx, request); err != nil {
+	if err = r.validator.StructCtx(ctx, request); err != nil {
 		return
 	}
 
@@ -54,22 +55,55 @@ func (h *Rest) create(ctx fiber.Ctx) (err error) {
 	}
 
 	var app *model.Application
-	if app, err = h.service.Create(ctx, newApp); err != nil {
+	if app, err = r.service.Create(ctx, newApp); err != nil {
 		return
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(app)
 }
 
-func (h *Rest) findById(ctx fiber.Ctx) (err error) {
+func (r *Rest) findById(ctx fiber.Ctx) (err error) {
 	id := ctx.Params("id")
-
-	if err = h.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
+	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
 		return
 	}
 
 	var app *model.Application
-	if app, err = h.service.FindById(ctx, uuid.MustParse(id)); err != nil {
+	if app, err = r.service.FindById(ctx, uuid.MustParse(id)); err != nil {
+		if errors.Is(err, common.ErrApplicationNotFound) {
+			return ctx.Status(fiber.StatusNotFound).JSON(err)
+		}
+		return
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(app)
+}
+
+func (r *Rest) update(ctx fiber.Ctx) (err error) {
+	ctx.Accepts(fiber.MIMEApplicationJSON)
+
+	id := ctx.Params("id")
+	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
+		return
+	}
+
+	request := new(dto.UpdateApplication)
+	if err = ctx.Bind().Body(request); err != nil {
+		return
+	}
+	request.ID = id
+
+	if err = r.validator.StructCtx(ctx, request); err != nil {
+		return
+	}
+
+	updApp := new(model.UpdateApplication)
+	if err = copier.Copy(updApp, request); err != nil {
+		return
+	}
+
+	var app *model.Application
+	if app, err = r.service.Update(ctx, updApp); err != nil {
 		if errors.Is(err, common.ErrApplicationNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
 		}

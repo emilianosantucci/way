@@ -55,9 +55,10 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 
 	if err = s.repository.Update(ctx, ent); errors.Is(err, gorm.ErrDuplicatedKey) {
 		err = common.ErrApplicationWithSameNameAndVersionExists
+		return
 	}
 
-	return s.transformEntityToModel(ent)
+	return s.FindById(ctx, ent.ID)
 }
 
 func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
