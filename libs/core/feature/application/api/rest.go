@@ -10,15 +10,15 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 	"github.com/google/uuid"
-	"github.com/jinzhu/copier"
 	"go.uber.org/zap"
 )
 
-func NewRest(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate) *Rest {
+func NewRest(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto.Convert) *Rest {
 	rest := &Rest{
 		service,
 		log,
 		validator,
+		converter,
 	}
 
 	return rest
@@ -35,6 +35,7 @@ type Rest struct {
 	service   *service.Service
 	log       *zap.SugaredLogger
 	validator *validator.Validate
+	converter dto.Convert
 }
 
 func (r *Rest) create(ctx fiber.Ctx) (err error) {
@@ -51,16 +52,17 @@ func (r *Rest) create(ctx fiber.Ctx) (err error) {
 	}
 
 	newApp := new(model.NewApplication)
-	if err = copier.Copy(newApp, request); err != nil {
-		return
-	}
+	r.converter.ToModelNew(request, newApp)
 
 	var app *model.Application
 	if app, err = r.service.Create(ctx, newApp); err != nil {
 		return
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(app)
+	response := new(dto.Application)
+	r.converter.ToDto(app, response)
+
+	return ctx.Status(fiber.StatusCreated).JSON(response)
 }
 
 func (r *Rest) findById(ctx fiber.Ctx) (err error) {
@@ -77,7 +79,10 @@ func (r *Rest) findById(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(app)
+	response := new(dto.Application)
+	r.converter.ToDto(app, response)
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
 func (r *Rest) update(ctx fiber.Ctx) (err error) {
@@ -95,7 +100,8 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 	}
 
 	updApp := new(model.UpdateApplication)
-	if err = copier.Copy(updApp, request); err != nil {
+
+	if err = r.converter.ToModelUpdate(request, updApp); err != nil {
 		return
 	}
 
@@ -107,7 +113,10 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(app)
+	response := new(dto.Application)
+	r.converter.ToDto(app, response)
+
+	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
 func (r *Rest) delete(ctx fiber.Ctx) (err error) {
