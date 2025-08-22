@@ -1,6 +1,8 @@
 module libs/core/logging
 
-go 1.25
+go 1.24
+
+toolchain go1.24.4
 
 require (
 	go.uber.org/fx v1.24.0

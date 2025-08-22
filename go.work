@@ -1,11 +1,13 @@
-go 1.25
+go 1.24.0
+
+toolchain go1.24.4
 
 use (
 	./apps/core
-	./libs/core/feature/application
 	./libs/core/common
 	./libs/core/database
 	./libs/core/environment
+	./libs/core/feature/application
 	./libs/core/framework
 	./libs/core/logging
 	./libs/core/messaging

@@ -1,6 +1,6 @@
 module libs/core/environment
 
-go 1.25
+go 1.24
 
 require (
 	github.com/spf13/viper v1.20.1

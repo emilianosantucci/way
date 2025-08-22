@@ -1,8 +1,9 @@
 [tools]
-go = "1.25"
+go = "1.24"
 node = "latest"
 pnpm = "latest"
 "go:github.com/nats-io/natscli/nats" = { version = "latest", tags = "nats" }
+"go:github.com/jmattheis/goverter/cmd/goverter" = { version = "v1.9.0", tags = "goverter" }
 
 [env]
 MISE_GO_SET_GOROOT= true
