@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 	"errors"
-	"libs/core/application/repository"
-	"libs/core/application/repository/entity"
-	"libs/core/application/service/model"
 	"libs/core/common"
+	"libs/core/feature/application/repository"
+	"libs/core/feature/application/repository/entity"
+	"libs/core/feature/application/service/model"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"

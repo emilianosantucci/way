@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"libs/core/application/repository/entity"
+	"libs/core/feature/application/repository/entity"
 
 	"libs/core/common"
 

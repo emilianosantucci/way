@@ -1,8 +1,8 @@
 {
   "name": "application",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/application",
+  "sourceRoot": "libs/core/feature/application",
   "tags": [],
   "targets": {
     "test": {

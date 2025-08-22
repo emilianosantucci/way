@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"libs/core/application"
-	"libs/core/application/service"
-	"libs/core/application/service/model"
 	"libs/core/database"
 	"libs/core/environment"
+	"libs/core/feature/application"
+	"libs/core/feature/application/service"
+	"libs/core/feature/application/service/model"
 	"libs/core/logging"
 	"libs/core/messaging"
 	"libs/core/validation"

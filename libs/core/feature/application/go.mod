@@ -1,4 +1,4 @@
-module libs/core/application
+module libs/core/feature/application
 
 go 1.25
 

@@ -2,10 +2,10 @@ package api
 
 import (
 	"errors"
-	"libs/core/application/api/dto"
-	"libs/core/application/service"
-	"libs/core/application/service/model"
 	"libs/core/common"
+	"libs/core/feature/application/api/dto"
+	"libs/core/feature/application/service"
+	"libs/core/feature/application/service/model"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"

@@ -1,9 +1,9 @@
 package application
 
 import (
-	"libs/core/application/api"
-	"libs/core/application/repository"
-	"libs/core/application/service"
+	"libs/core/feature/application/api"
+	"libs/core/feature/application/repository"
+	"libs/core/feature/application/service"
 
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
