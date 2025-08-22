@@ -1,8 +1,8 @@
 [tools]
-go = "1.24"
+go = "1.25"
 node = "latest"
 pnpm = "latest"
 "go:github.com/nats-io/natscli/nats" = { version = "latest", tags = "nats" }
 
 [env]
-MISE_GO_SET_GOPATH = true
+MISE_GO_SET_GOROOT= true

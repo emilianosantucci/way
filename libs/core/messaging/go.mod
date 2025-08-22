@@ -1,19 +1,17 @@
 module libs/core/messaging
 
-go 1.24.0
-
-toolchain go1.24.4
+go 1.25
 
 require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 	github.com/nats-io/nats-server/v2 v2.11.8
-	github.com/nats-io/nats.go v1.44.0
+	github.com/nats-io/nats.go v1.45.0
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.0
 )
 
 require (
-	github.com/gofiber/utils/v2 v2.0.0-beta.14 // indirect
+	github.com/gofiber/utils/v2 v2.0.0-rc.1 // indirect
 	github.com/google/go-tpm v0.9.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
