@@ -1,5 +1,5 @@
 {
-  "name": "application",
+  "name": "core-feature-application",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/core/feature/application",
