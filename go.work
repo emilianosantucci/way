@@ -8,6 +8,7 @@ use (
 	./libs/core/database
 	./libs/core/environment
 	./libs/core/feature/application
+	./libs/core/feature/resource/rest
 	./libs/core/framework
 	./libs/core/logging
 	./libs/core/messaging
