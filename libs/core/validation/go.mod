@@ -1,8 +1,8 @@
 module libs/core/validation
 
-go 1.24
+go 1.24.0
 
-toolchain go1.24.4
+toolchain go1.24.6
 
 require (
 	github.com/go-playground/validator/v10 v10.27.0

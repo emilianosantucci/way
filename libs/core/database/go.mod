@@ -1,6 +1,8 @@
 module libs/core/database
 
-go 1.24
+go 1.24.0
+
+toolchain go1.24.6
 
 require (
 	go.uber.org/fx v1.24.0
