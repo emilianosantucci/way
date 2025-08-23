@@ -9,16 +9,16 @@ pnpm = "latest"
 MISE_GO_SET_GOROOT= true
 
 [tasks."go:build"]
-run = "nx run-many -t build"
+run = "pnpm exec nx run-many -t build"
 
 [tasks."go:tidy"]
-run = "nx run-many -t tidy"
+run = "pnpm exec nx run-many -t tidy"
 
 [tasks."go:lint"]
-run = "nx run-many -t lint"
+run = "pnpm exec nx run-many -t lint"
 
 [tasks."go:test"]
-run = "nx run-many -t test"
+run = "pnpm exec nx run-many -t test"
 
 [tasks."go:convert"]
 depends = "go:convert:*"

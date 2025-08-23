@@ -8,7 +8,6 @@ require (
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.5
 	github.com/google/uuid v1.6.0
-	github.com/jinzhu/copier v0.4.0
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.0
 	gorm.io/gorm v1.30.1
