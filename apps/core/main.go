@@ -53,7 +53,7 @@ func TestingDI(svc *service.Service, db *gorm.DB, ns *server.Server, nc *nats.Co
 		log.Error(err.Error())
 	}
 
-	id, err = uuid.Parse("37a44bf5-8037-4a1a-9f83-f0ace1931554")
+	id, err = uuid.Parse("578e8f52-0dbb-49e9-a11c-296ade2e4b88")
 
 	if err != nil {
 		log.Error(err.Error())

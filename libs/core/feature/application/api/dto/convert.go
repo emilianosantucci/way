@@ -15,11 +15,11 @@ import (
 // goverter:output:raw }
 type Convert interface {
 	// goverter:update target
-	ToModelNew(source *NewApplication, target *model.NewApplication)
+	FromNewToModel(source *NewApplication, target *model.NewApplication)
 
 	// goverter:update target
 	ToDto(source *model.Application, target *Application)
 
 	// goverter:update target
-	ToModelUpdate(source *UpdateApplication, target *model.UpdateApplication) (err error)
+	FromUpdateToModel(source *UpdateApplication, target *model.UpdateApplication) (err error)
 }

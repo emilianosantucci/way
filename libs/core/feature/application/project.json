@@ -13,16 +13,6 @@
     },
     "tidy": {
       "executor": "@nx-go/nx-go:tidy"
-    },
-    "convert": {
-      "executor": "nx:run-commands",
-      "options": {
-        "cwd": "{projectRoot}",
-        "commands": [
-          "goverter gen './api/dto/... ./service/model/... ./repository/entity/...'"
-        ],
-        "parallel": false
-      }
     }
   }
 }

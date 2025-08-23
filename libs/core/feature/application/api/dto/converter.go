@@ -15,20 +15,13 @@ func NewConverter() Convert {
 
 type Converter struct{}
 
-func (c *Converter) ToDto(source *model.Application, target *Application) {
-	if source != nil {
-		target.ID = common.UuidToString(source.ID)
-		target.Name = source.Name
-		target.Version = source.Version
-	}
-}
-func (c *Converter) ToModelNew(source *NewApplication, target *model.NewApplication) {
+func (c *Converter) FromNewToModel(source *NewApplication, target *model.NewApplication) {
 	if source != nil {
 		target.Name = source.Name
 		target.Version = source.Version
 	}
 }
-func (c *Converter) ToModelUpdate(source *UpdateApplication, target *model.UpdateApplication) error {
+func (c *Converter) FromUpdateToModel(source *UpdateApplication, target *model.UpdateApplication) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
 		if err != nil {
@@ -38,4 +31,11 @@ func (c *Converter) ToModelUpdate(source *UpdateApplication, target *model.Updat
 		target.Version = source.Version
 	}
 	return nil
+}
+func (c *Converter) ToDto(source *model.Application, target *Application) {
+	if source != nil {
+		target.ID = common.UuidToString(source.ID)
+		target.Name = source.Name
+		target.Version = source.Version
+	}
 }

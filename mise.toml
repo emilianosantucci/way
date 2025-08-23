@@ -7,3 +7,27 @@ pnpm = "latest"
 
 [env]
 MISE_GO_SET_GOROOT= true
+
+[tasks."go:build"]
+run = "nx run-many -t build"
+
+[tasks."go:tidy"]
+run = "nx run-many -t tidy"
+
+[tasks."go:lint"]
+run = "nx run-many -t lint"
+
+[tasks."go:test"]
+run = "nx run-many -t test"
+
+[tasks."go:convert"]
+depends = "go:convert:*"
+
+[tasks."go:convert:core-feature-application"]
+depends = "go:convert:core-feature-application:*"
+
+[tasks."go:convert:core-feature-application:dtos"]
+run = "goverter gen './libs/core/feature/application/.../dto/...'"
+
+[tasks."go:convert:core-feature-application:models"]
+run = "goverter gen './libs/core/feature/application/.../model/...'"

@@ -52,7 +52,7 @@ func (r *Rest) create(ctx fiber.Ctx) (err error) {
 	}
 
 	newApp := new(model.NewApplication)
-	r.converter.ToModelNew(request, newApp)
+	r.converter.FromNewToModel(request, newApp)
 
 	var app *model.Application
 	if app, err = r.service.Create(ctx, newApp); err != nil {
@@ -101,7 +101,7 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 
 	updApp := new(model.UpdateApplication)
 
-	if err = r.converter.ToModelUpdate(request, updApp); err != nil {
+	if err = r.converter.FromUpdateToModel(request, updApp); err != nil {
 		return
 	}
 

@@ -10,20 +10,21 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
-	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
 )
 
-func NewService(repository *repository.Repository, validator *validator.Validate) *Service {
+func NewService(repository *repository.Repository, validator *validator.Validate, converter model.Convert) *Service {
 	return &Service{
 		repository: repository,
 		validator:  validator,
+		converter:  converter,
 	}
 }
 
 type Service struct {
 	repository *repository.Repository
 	validator  *validator.Validate
+	converter  model.Convert
 }
 
 func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app *model.Application, err error) {
@@ -32,15 +33,16 @@ func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app
 	}
 
 	ent := new(entity.Application)
-	if err = copier.Copy(ent, newApp); err != nil {
-		return
-	}
+	s.converter.FromNewToEntity(newApp, ent)
 
 	if err = s.repository.Create(ctx, ent); err != nil {
 		return
 	}
 
-	return s.transformEntityToModel(ent)
+	app = new(model.Application)
+	s.converter.ToModel(ent, app)
+
+	return
 }
 
 func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (app *model.Application, err error) {
@@ -49,9 +51,7 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 	}
 
 	ent := new(entity.Application)
-	if err = copier.Copy(ent, updApp); err != nil {
-		return
-	}
+	s.converter.FromUpdateToEntity(updApp, ent)
 
 	if err = s.repository.Update(ctx, ent); errors.Is(err, gorm.ErrDuplicatedKey) {
 		err = common.ErrApplicationWithSameNameAndVersionExists
@@ -78,10 +78,7 @@ func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Applic
 		return
 	}
 
-	return s.transformEntityToModel(ent)
-}
-
-func (s *Service) transformEntityToModel(ent *entity.Application) (mod *model.Application, err error) {
-	mod = new(model.Application)
-	return mod, copier.Copy(mod, ent)
+	app = new(model.Application)
+	s.converter.ToModel(ent, app)
+	return
 }
