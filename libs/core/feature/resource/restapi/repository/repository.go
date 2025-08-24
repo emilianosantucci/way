@@ -48,21 +48,16 @@ func (r *Repository) Create(ctx context.Context, ent *entity.RestApiResource) (e
 func (r *Repository) Update(ctx context.Context, ent *entity.RestApiResource) (err error) {
 	var rowsAffected int
 	rowsAffected, err = gorm.G[entity.RestApiResource](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
-	if err == nil && rowsAffected == 0 {
-		err = common.ErrRestApiResourceNotFound
-	}
-	return
+	return common.GenerateEmptyRowsAffectedError(err, rowsAffected, common.ErrRestApiResourceNotFound)
 }
 
 func (r *Repository) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	var rowsAffected int
 	rowsAffected, err = gorm.G[entity.RestApiResource](r.db).Where("id = ?", id).Delete(ctx)
-	if err == nil && rowsAffected == 0 {
-		err = common.ErrRestApiResourceNotFound
-	}
-	return
+	return common.GenerateEmptyRowsAffectedError(err, rowsAffected, common.ErrRestApiResourceNotFound)
 }
 
 func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.RestApiResource, err error) {
-	return gorm.G[*entity.RestApiResource](r.db).Where("id = ?", id).First(ctx)
+	ent, err = gorm.G[*entity.RestApiResource](r.db).Where("id = ?", id).First(ctx)
+	return ent, common.GenerateRecordNotFoundError(err, common.ErrRestApiResourceNotFound)
 }

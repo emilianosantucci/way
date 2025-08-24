@@ -49,25 +49,21 @@ func (r *Repository) Create(ctx context.Context, ent *entity.Application) (err e
 func (r *Repository) Update(ctx context.Context, ent *entity.Application) (err error) {
 	var rowsAffected int
 	rowsAffected, err = gorm.G[entity.Application](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
-	if err == nil && rowsAffected == 0 {
-		err = common.ErrApplicationNotFound
-	}
-	return
+	return common.GenerateEmptyRowsAffectedError(err, rowsAffected, common.ErrRestApiResourceNotFound)
 }
 
 func (r *Repository) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	var rowsAffected int
 	rowsAffected, err = gorm.G[entity.Application](r.db).Where("id = ?", id).Delete(ctx)
-	if err == nil && rowsAffected == 0 {
-		err = common.ErrApplicationNotFound
-	}
-	return
+	return common.GenerateEmptyRowsAffectedError(err, rowsAffected, common.ErrRestApiResourceNotFound)
 }
 
 func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.Application, err error) {
-	return gorm.G[*entity.Application](r.db).Where("id = ?", id).First(ctx)
+	ent, err = gorm.G[*entity.Application](r.db).Where("id = ?", id).First(ctx)
+	return ent, common.GenerateRecordNotFoundError(err, common.ErrApplicationNotFound)
 }
 
 func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, version string) (ent *entity.Application, err error) {
-	return gorm.G[*entity.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
+	ent, err = gorm.G[*entity.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
+	return ent, common.GenerateRecordNotFoundError(err, common.ErrApplicationNotFound)
 }

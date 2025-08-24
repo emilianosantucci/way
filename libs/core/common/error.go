@@ -1,6 +1,10 @@
 package common
 
-import "errors"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 //goland:noinspection GoUnusedGlobalVariable
 var (
@@ -9,3 +13,17 @@ var (
 	ErrApplicationWithSameNameAndVersionExists = errors.New("application with same name and version already exists")
 	ErrRestApiResourceNotFound                 = errors.New("rest api resource not found")
 )
+
+func GenerateRecordNotFoundError(input error, customErr error) (err error) {
+	if err = input; err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		err = customErr
+	}
+	return err
+}
+
+func GenerateEmptyRowsAffectedError(inputErr error, rowsAffected int, customErr error) (err error) {
+	if err = inputErr; err == nil && rowsAffected == 0 {
+		err = customErr
+	}
+	return
+}
