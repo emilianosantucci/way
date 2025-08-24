@@ -6,5 +6,5 @@ import (
 
 type NewRestResource struct {
 	Path   string          `json:"path" validate:"required,min=1"`
-	Method http.HttpMethod `json:"method" validate:"omitnil,http_method"`
+	Method http.HttpMethod `json:"method" validate:"http_method"`
 }

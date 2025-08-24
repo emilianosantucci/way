@@ -57,7 +57,7 @@ func TestingDI(log *zap.SugaredLogger, svc *service.Service) { // FIXME: remove 
 
 	updRest.ID = id
 	updRest.Path = "/updated"
-	updRest.Method = http.Post
+	updRest.Method = http.All
 
 	if _, err := svc.Update(ctx, updRest); err != nil {
 		log.Error(err)

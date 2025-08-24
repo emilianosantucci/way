@@ -2,12 +2,14 @@ package http
 
 import "strings"
 
-func ToString(h HttpMethod) string {
+func ToString(h HttpMethod) (s string) {
 	return strings.ToUpper(h.String())
 }
 
 func ToHttpMethod(s string) (method HttpMethod) {
 	switch strings.ToLower(s) {
+	case "", "all":
+		return All
 	case "get":
 		return Get
 	case "post":
