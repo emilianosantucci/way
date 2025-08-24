@@ -6,7 +6,7 @@ package model
 import (
 	uuid "github.com/google/uuid"
 	http "libs/core/common/http"
-	entity "libs/core/feature/resource/rest/repository/entity"
+	entity "libs/core/feature/resource/restapi/repository/entity"
 )
 
 func NewConverter() Convert {
@@ -15,20 +15,20 @@ func NewConverter() Convert {
 
 type Converter struct{}
 
-func (c *Converter) FromNewToEntity(source *NewRestResource, target *entity.RestResource) {
+func (c *Converter) FromNewToEntity(source *NewRestApiResource, target *entity.RestApiResource) {
 	if source != nil {
 		target.Path = source.Path
 		target.Method = http.ToString(source.Method)
 	}
 }
-func (c *Converter) FromUpdateToEntity(source *UpdateRestResource, target *entity.RestResource) {
+func (c *Converter) FromUpdateToEntity(source *UpdateRestApiResource, target *entity.RestApiResource) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path
 		target.Method = http.ToString(source.Method)
 	}
 }
-func (c *Converter) ToModel(source *entity.RestResource, target *RestResource) {
+func (c *Converter) ToModel(source *entity.RestApiResource, target *RestApiResource) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path

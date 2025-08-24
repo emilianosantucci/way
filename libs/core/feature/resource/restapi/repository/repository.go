@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"libs/core/common"
-	"libs/core/feature/resource/rest/repository/entity"
+	"libs/core/feature/resource/restapi/repository/entity"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ func NewRepository(db *gorm.DB) *Repository {
 }
 
 func RegisterEntities(db *gorm.DB) error {
-	return db.AutoMigrate(&entity.RestResource{})
+	return db.AutoMigrate(&entity.RestApiResource{})
 }
 
 type Repository struct {
@@ -41,28 +41,28 @@ func (r *Repository) Transaction(ctx context.Context, fn func(repo *Repository) 
 	return tx.Commit().Error
 }
 
-func (r *Repository) Create(ctx context.Context, ent *entity.RestResource) (err error) {
-	return gorm.G[entity.RestResource](r.db).Create(ctx, ent)
+func (r *Repository) Create(ctx context.Context, ent *entity.RestApiResource) (err error) {
+	return gorm.G[entity.RestApiResource](r.db).Create(ctx, ent)
 }
 
-func (r *Repository) Update(ctx context.Context, ent *entity.RestResource) (err error) {
+func (r *Repository) Update(ctx context.Context, ent *entity.RestApiResource) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[entity.RestResource](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
+	rowsAffected, err = gorm.G[entity.RestApiResource](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
 	if err == nil && rowsAffected == 0 {
-		err = common.ErrResourceRestNotFound
+		err = common.ErrRestApiResourceNotFound
 	}
 	return
 }
 
 func (r *Repository) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[entity.RestResource](r.db).Where("id = ?", id).Delete(ctx)
+	rowsAffected, err = gorm.G[entity.RestApiResource](r.db).Where("id = ?", id).Delete(ctx)
 	if err == nil && rowsAffected == 0 {
-		err = common.ErrResourceRestNotFound
+		err = common.ErrRestApiResourceNotFound
 	}
 	return
 }
 
-func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.RestResource, err error) {
-	return gorm.G[*entity.RestResource](r.db).Where("id = ?", id).First(ctx)
+func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.RestApiResource, err error) {
+	return gorm.G[*entity.RestApiResource](r.db).Where("id = ?", id).First(ctx)
 }

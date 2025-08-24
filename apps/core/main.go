@@ -6,9 +6,9 @@ import (
 	"libs/core/database"
 	"libs/core/environment"
 	"libs/core/feature/application"
-	"libs/core/feature/resource/rest"
-	"libs/core/feature/resource/rest/service"
-	"libs/core/feature/resource/rest/service/model"
+	"libs/core/feature/resource/restapi"
+	"libs/core/feature/resource/restapi/service"
+	"libs/core/feature/resource/restapi/service/model"
 	"libs/core/logging"
 	"libs/core/messaging"
 	"libs/core/validation"
@@ -28,7 +28,7 @@ func main() {
 		web.Module,
 		messaging.Module,
 		application.Module,
-		rest.Module,
+		restapi.Module,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()
@@ -38,7 +38,7 @@ func TestingDI(log *zap.SugaredLogger, svc *service.Service) { // FIXME: remove 
 	ctx := context.Background()
 	var err error
 
-	newRest := new(model.NewRestResource)
+	newRest := new(model.NewRestApiResource)
 
 	newRest.Path = "/"
 	newRest.Method = http.Get
@@ -53,7 +53,7 @@ func TestingDI(log *zap.SugaredLogger, svc *service.Service) { // FIXME: remove 
 
 	log.Debugf("Resource rest creation: %+v", newRest)
 
-	updRest := new(model.UpdateRestResource)
+	updRest := new(model.UpdateRestApiResource)
 
 	updRest.ID = id
 	updRest.Path = "/updated"
@@ -66,7 +66,7 @@ func TestingDI(log *zap.SugaredLogger, svc *service.Service) { // FIXME: remove 
 
 	log.Debugf("Resource rest update: %+v", updRest)
 
-	foundRest := new(model.RestResource)
+	foundRest := new(model.RestApiResource)
 
 	if foundRest, err = svc.FindById(ctx, id); err != nil {
 		log.Error(err)
