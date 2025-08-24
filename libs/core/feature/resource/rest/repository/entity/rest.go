@@ -5,13 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type Rest struct {
+type RestResource struct {
 	gorm.Model
 	ID     uuid.UUID `gorm:"<-:create;primaryKey;type:uuid;default:gen_random_uuid()" json:"id"`
 	Path   string    `gorm:"text;not null" json:"path"`
 	Method string    `gorm:"text" json:"method"`
-}
-
-func (r *Rest) TableName() string {
-	return "resource_rests"
 }

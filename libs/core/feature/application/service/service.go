@@ -53,8 +53,10 @@ func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (
 	ent := new(entity.Application)
 	s.converter.FromUpdateToEntity(updApp, ent)
 
-	if err = s.repository.Update(ctx, ent); errors.Is(err, gorm.ErrDuplicatedKey) {
-		err = common.ErrApplicationWithSameNameAndVersionExists
+	if err = s.repository.Update(ctx, ent); err != nil {
+		if errors.Is(err, gorm.ErrDuplicatedKey) {
+			err = common.ErrApplicationWithSameNameAndVersionExists
+		}
 		return
 	}
 

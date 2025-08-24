@@ -2,18 +2,19 @@ package main
 
 import (
 	"context"
-	"libs/core/common"
+	"libs/core/common/http"
 	"libs/core/database"
 	"libs/core/environment"
 	"libs/core/feature/application"
 	"libs/core/feature/resource/rest"
-	"libs/core/feature/resource/rest/repository"
-	"libs/core/feature/resource/rest/repository/entity"
+	"libs/core/feature/resource/rest/service"
+	"libs/core/feature/resource/rest/service/model"
 	"libs/core/logging"
 	"libs/core/messaging"
 	"libs/core/validation"
 	"libs/core/web"
 
+	"github.com/google/uuid"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -33,45 +34,48 @@ func main() {
 	app.Run()
 }
 
-func TestingDI(log *zap.SugaredLogger, repo *repository.Repository) { // FIXME: remove me
+func TestingDI(log *zap.SugaredLogger, svc *service.Service) { // FIXME: remove me
 	ctx := context.Background()
 	var err error
 
-	newRest := new(entity.Rest)
+	newRest := new(model.NewRestResource)
 
 	newRest.Path = "/"
-	newRest.Method = common.Get.String()
+	newRest.Method = http.Get
 
-	if err = repo.Create(ctx, newRest); err != nil {
+	var id uuid.UUID
+	if result, err := svc.Create(ctx, newRest); err != nil {
 		log.Error(err)
 		return
+	} else {
+		id = result.ID
 	}
 
 	log.Debugf("Resource rest creation: %+v", newRest)
 
-	updRest := new(entity.Rest)
+	updRest := new(model.UpdateRestResource)
 
-	updRest.ID = newRest.ID
+	updRest.ID = id
 	updRest.Path = "/updated"
-	updRest.Method = common.Post.String()
+	updRest.Method = http.Post
 
-	if err = repo.Update(ctx, updRest); err != nil {
+	if _, err := svc.Update(ctx, updRest); err != nil {
 		log.Error(err)
 		return
 	}
 
 	log.Debugf("Resource rest update: %+v", updRest)
 
-	foundRest := new(entity.Rest)
+	foundRest := new(model.RestResource)
 
-	if foundRest, err = repo.FindById(ctx, updRest.ID); err != nil {
+	if foundRest, err = svc.FindById(ctx, id); err != nil {
 		log.Error(err)
 		return
 	}
 
 	log.Debugf("Resource rest found: %+v", foundRest)
 
-	if err = repo.Delete(ctx, updRest.ID); err != nil {
+	if err = svc.Delete(ctx, updRest.ID); err != nil {
 		log.Error(err)
 		return
 	}

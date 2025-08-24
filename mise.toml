@@ -31,3 +31,12 @@ run = "goverter gen './libs/core/feature/application/.../dto/...'"
 
 [tasks."go:convert:core-feature-application:models"]
 run = "goverter gen './libs/core/feature/application/.../model/...'"
+
+[tasks."go:convert:core-feature-resource-rest"]
+depends = "go:convert:core-feature-resource-rest:*"
+
+[tasks."go:convert:core-feature-resource-rest:dtos"]
+run = "goverter gen './libs/core/feature/resource/rest/.../dto/...'"
+
+[tasks."go:convert:core-feature-resource-rest:models"]
+run = "goverter gen './libs/core/feature/resource/rest/.../model/...'"

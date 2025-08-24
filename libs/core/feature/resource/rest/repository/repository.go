@@ -14,7 +14,7 @@ func NewRepository(db *gorm.DB) *Repository {
 }
 
 func RegisterEntities(db *gorm.DB) error {
-	return db.AutoMigrate(&entity.Rest{})
+	return db.AutoMigrate(&entity.RestResource{})
 }
 
 type Repository struct {
@@ -41,13 +41,13 @@ func (r *Repository) Transaction(ctx context.Context, fn func(repo *Repository) 
 	return tx.Commit().Error
 }
 
-func (r *Repository) Create(ctx context.Context, ent *entity.Rest) (err error) {
-	return gorm.G[entity.Rest](r.db).Create(ctx, ent)
+func (r *Repository) Create(ctx context.Context, ent *entity.RestResource) (err error) {
+	return gorm.G[entity.RestResource](r.db).Create(ctx, ent)
 }
 
-func (r *Repository) Update(ctx context.Context, ent *entity.Rest) (err error) {
+func (r *Repository) Update(ctx context.Context, ent *entity.RestResource) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[entity.Rest](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
+	rowsAffected, err = gorm.G[entity.RestResource](r.db).Where("id = ?", ent.ID).Updates(ctx, *ent)
 	if err == nil && rowsAffected == 0 {
 		err = common.ErrResourceRestNotFound
 	}
@@ -56,13 +56,13 @@ func (r *Repository) Update(ctx context.Context, ent *entity.Rest) (err error) {
 
 func (r *Repository) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	var rowsAffected int
-	rowsAffected, err = gorm.G[entity.Rest](r.db).Where("id = ?", id).Delete(ctx)
+	rowsAffected, err = gorm.G[entity.RestResource](r.db).Where("id = ?", id).Delete(ctx)
 	if err == nil && rowsAffected == 0 {
 		err = common.ErrResourceRestNotFound
 	}
 	return
 }
 
-func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.Rest, err error) {
-	return gorm.G[*entity.Rest](r.db).Where("id = ?", id).First(ctx)
+func (r *Repository) FindById(ctx context.Context, id uuid.UUID) (ent *entity.RestResource, err error) {
+	return gorm.G[*entity.RestResource](r.db).Where("id = ?", id).First(ctx)
 }
