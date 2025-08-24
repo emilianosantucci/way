@@ -1,14 +1,12 @@
 package database
 
 import (
+	"libs/core/logging"
+
 	"go.uber.org/fx"
-	"go.uber.org/fx/fxevent"
-	"go.uber.org/zap"
 )
 
 var Module = fx.Module("database",
 	fx.Provide(NewDatabase),
-	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
-		return &fxevent.ZapLogger{Logger: log}
-	}),
+	fx.WithLogger(logging.FxLogger),
 )

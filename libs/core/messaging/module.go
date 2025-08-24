@@ -1,17 +1,19 @@
 package messaging
 
 import (
+	"libs/core/logging"
+
 	"go.uber.org/fx"
-	"go.uber.org/fx/fxevent"
-	"go.uber.org/zap"
 )
 
 var Module = fx.Module("messaging",
-	fx.Provide(NewServer),
-	fx.Invoke(ServerLifecycle),
-	fx.Provide(NewClient),
-	fx.Invoke(ClientLifecycle),
-	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
-		return &fxevent.ZapLogger{Logger: log}
-	}),
+	fx.Provide(
+		NewServer,
+		NewClient,
+	),
+	fx.Invoke(
+		ServerLifecycle,
+		ClientLifecycle,
+	),
+	fx.WithLogger(logging.FxLogger),
 )

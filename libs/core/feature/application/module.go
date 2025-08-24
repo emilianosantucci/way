@@ -6,33 +6,25 @@ import (
 	"libs/core/feature/application/repository"
 	"libs/core/feature/application/service"
 	"libs/core/feature/application/service/model"
+	"libs/core/logging"
 
 	"go.uber.org/fx"
-	"go.uber.org/fx/fxevent"
-	"go.uber.org/zap"
 )
 
 var Module = fx.Module("application",
 	fx.Provide(
 		fx.Private,
 		repository.NewRepository,
-	),
-	fx.Invoke(repository.RegisterEntities),
-	fx.Provide(service.NewService),
-	fx.Provide(
-		fx.Private,
 		model.NewConverter,
-	),
-	fx.Provide(
-		fx.Private,
+		dto.NewConverter,
 		api.NewRest,
 	),
-	fx.Provide(
-		fx.Private,
-		dto.NewConverter,
+	fx.Invoke(
+		repository.RegisterEntities,
+		api.RegisterApiRest,
 	),
-	fx.Invoke(api.RegisterApiRest),
-	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
-		return &fxevent.ZapLogger{Logger: log}
-	}),
+	fx.Provide(
+		service.NewService,
+	),
+	fx.WithLogger(logging.FxLogger),
 )
