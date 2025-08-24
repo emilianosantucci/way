@@ -13,6 +13,6 @@ var Module = fx.Module("feature-resource-rest",
 		//fx.Private,
 		repository.NewRepository,
 	),
-	fx.Invoke(repository.RegisterEntity),
+	fx.Invoke(repository.RegisterEntities),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger { return &fxevent.ZapLogger{Logger: log} }),
 )

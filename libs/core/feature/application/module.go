@@ -17,7 +17,7 @@ var Module = fx.Module("application",
 		fx.Private,
 		repository.NewRepository,
 	),
-	fx.Invoke(repository.RegisterEntity),
+	fx.Invoke(repository.RegisterEntities),
 	fx.Provide(service.NewService),
 	fx.Provide(
 		fx.Private,

@@ -13,7 +13,7 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db: db}
 }
 
-func RegisterEntity(db *gorm.DB) error {
+func RegisterEntities(db *gorm.DB) error {
 	return db.AutoMigrate(&entity.Rest{})
 }
 
