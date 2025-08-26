@@ -4,6 +4,7 @@ description: Tutto il codice scritto in Golang
 ---
 
 # Go projects
+
 - Multi-module apps and libs using Go workspace handled by nx-go (https://github.com/nx-go/nx-go)
 - Dependency Injection with Uber FX (https://github.com/uber-go/fx)
 - Logging wit Uber Zap (https://github.com/uber-go/zap)
