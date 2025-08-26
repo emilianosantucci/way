@@ -1,8 +1,8 @@
 {
-  "name": "core-feature-rest",
+  "name": "core-feature-resource-restapi",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/feature/resource/rest",
+  "sourceRoot": "libs/core/feature/resource/restapi",
   "tags": [],
   "targets": {
     "test": {
