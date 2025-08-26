@@ -1,10 +1,10 @@
 module libs/core/feature/resource/route
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/go-playground/validator/v10 v10.27.0
-	github.com/gofiber/fiber/v3 v3.0.0-beta.5
+	github.com/gofiber/fiber/v3 v3.0.0-rc.1
 	github.com/google/uuid v1.6.0
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.0
@@ -13,7 +13,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.10 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/gofiber/schema v1.6.0 // indirect

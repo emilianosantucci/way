@@ -1,9 +1,9 @@
 module libs/core/web
 
-go 1.25
+go 1.25.0
 
 require (
-	github.com/gofiber/fiber/v3 v3.0.0-beta.5
+	github.com/gofiber/fiber/v3 v3.0.0-rc.1
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.0
 )
