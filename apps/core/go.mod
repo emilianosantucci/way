@@ -1,8 +1,6 @@
 module apps/core
 
-go 1.24.0
-
-toolchain go1.24.6
+go 1.25
 
 require (
 	github.com/google/uuid v1.6.0
