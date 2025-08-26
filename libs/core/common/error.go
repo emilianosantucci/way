@@ -12,6 +12,7 @@ var (
 	ErrApplicationNotFound                     = errors.New("application not found")
 	ErrApplicationWithSameNameAndVersionExists = errors.New("application with same name and version already exists")
 	ErrRestApiResourceNotFound                 = errors.New("rest api resource not found")
+	ErrRouteNotFound                           = errors.New("route not found")
 )
 
 func GenerateRecordNotFoundError(input error, customErr error) (err error) {

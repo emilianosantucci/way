@@ -9,6 +9,7 @@ import (
 	"libs/core/feature/resource/restapi"
 	"libs/core/feature/resource/restapi/service"
 	"libs/core/feature/resource/restapi/service/model"
+	"libs/core/feature/resource/route"
 	"libs/core/logging"
 	"libs/core/messaging"
 	"libs/core/validation"
@@ -29,6 +30,7 @@ func main() {
 		messaging.Module,
 		application.Module,
 		restapi.Module,
+		route.Module,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()
