@@ -18,12 +18,9 @@ func (c *Converter) FromNewToModel(source *NewRoute, target *model.NewRoute) {
 	if source != nil {
 		target.Path = source.Path
 		target.Name = source.Name
-		target.Component = source.Component
 		target.Description = source.Description
-		target.IsActive = source.IsActive
 	}
 }
-
 func (c *Converter) FromUpdateToModel(source *UpdateRoute, target *model.UpdateRoute) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
@@ -33,24 +30,18 @@ func (c *Converter) FromUpdateToModel(source *UpdateRoute, target *model.UpdateR
 		target.ID = uuidUUID
 		target.Path = source.Path
 		target.Name = source.Name
-		target.Component = source.Component
 		target.Description = source.Description
-		target.IsActive = source.IsActive
 	}
 	return nil
 }
-
 func (c *Converter) ToDto(source *model.Route, target *Route) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path
 		target.Name = source.Name
-		target.Component = source.Component
 		target.Description = source.Description
-		target.IsActive = source.IsActive
 	}
 }
-
 func (c *Converter) uuidUUIDToUuidUUID(source uuid.UUID) uuid.UUID {
 	var uuidUUID uuid.UUID
 	for i := 0; i < len(source); i++ {

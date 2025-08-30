@@ -18,44 +18,25 @@ func (c *Converter) FromNewToEntity(source *NewRoute, target *entity.Route) {
 	if source != nil {
 		target.Path = source.Path
 		target.Name = source.Name
-		target.Component = source.Component
 		target.Description = source.Description
-		target.IsActive = source.IsActive
 	}
 }
-
 func (c *Converter) FromUpdateToEntity(source *UpdateRoute, target *entity.Route) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
-		if source.Path != "" {
-			target.Path = source.Path
-		}
-		if source.Name != "" {
-			target.Name = source.Name
-		}
-		if source.Component != "" {
-			target.Component = source.Component
-		}
-		if source.Description != "" {
-			target.Description = source.Description
-		}
-		if source.IsActive != nil {
-			target.IsActive = *source.IsActive
-		}
+		target.Path = source.Path
+		target.Name = source.Name
+		target.Description = source.Description
 	}
 }
-
 func (c *Converter) ToModel(source *entity.Route, target *Route) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path
 		target.Name = source.Name
-		target.Component = source.Component
 		target.Description = source.Description
-		target.IsActive = source.IsActive
 	}
 }
-
 func (c *Converter) uuidUUIDToUuidUUID(source uuid.UUID) uuid.UUID {
 	var uuidUUID uuid.UUID
 	for i := 0; i < len(source); i++ {
