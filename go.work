@@ -9,6 +9,7 @@ use (
 	./libs/core/feature/resource/restapi
 	./libs/core/feature/resource/route
 	./libs/core/framework
+	./libs/core/graphql
 	./libs/core/logging
 	./libs/core/messaging
 	./libs/core/validation

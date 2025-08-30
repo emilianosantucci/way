@@ -1,0 +1,15 @@
+input NewApplication {
+    name: String!
+}
+
+type Application {
+    id: ID!
+}
+
+extend type Mutation {
+    createApplication(input: NewApplication!): Application!
+}
+
+extend type Query {
+    applications: [Application]
+}
