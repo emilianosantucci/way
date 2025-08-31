@@ -15,11 +15,11 @@ import (
 // goverter:output:raw }
 type RouteResourceConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewRouteResource, target *model2.NewRoute)
+	FromNewToModel(source *NewRouteResource, target *model2.NewRouteResource)
 
 	// goverter:update target
-	ToDto(source *model2.Route, target *RouteResource)
+	ToDto(source *model2.RouteResource, target *RouteResource)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRoute) (err error)
+	FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRouteResource) (err error)
 }
