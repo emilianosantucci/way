@@ -5,7 +5,6 @@ go 1.25.0
 require (
 	github.com/99designs/gqlgen v0.17.78
 	github.com/vektah/gqlparser/v2 v2.5.30
-	go.uber.org/fx v1.24.0
 )
 
 require (
@@ -16,8 +15,4 @@ require (
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
 	github.com/stretchr/testify v1.11.0 // indirect
-	go.uber.org/dig v1.19.0 // indirect
-	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/sys v0.35.0 // indirect
 )

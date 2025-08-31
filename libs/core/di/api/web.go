@@ -1,18 +1,19 @@
-package web
+package api
 
 import (
 	"libs/core/logging"
+	"libs/core/web"
 	"libs/core/web/handler"
 
 	"go.uber.org/fx"
 )
 
-var Module = fx.Module("web",
+var WebModule = fx.Module("web",
 	fx.Provide(
-		NewFiber,
+		web.NewFiber,
 	),
 	fx.Invoke(
-		RunFiber,
+		web.RunFiber,
 		handler.RegisterGraphQLHandler,
 	),
 	fx.WithLogger(logging.FxLogger),

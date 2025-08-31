@@ -1,4 +1,4 @@
-package application
+package feature
 
 import (
 	"libs/core/feature/application/api"
@@ -11,7 +11,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var Module = fx.Module("application",
+var ApplicationModule = fx.Module("feature-application",
 	fx.Provide(
 		fx.Private,
 		repository.NewRepository,

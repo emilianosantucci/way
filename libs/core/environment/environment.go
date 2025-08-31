@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func NewConfiguration() (config Configuration, err error) {
+func NewEnvironment() (config Configuration, err error) {
 	config = Configuration{
 		Profile: "Development",
 		DB:      DatabaseConfiguration{},
