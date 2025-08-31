@@ -11,11 +11,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewWeb() *fiber.App {
+func NewFiber() *fiber.App {
 	return fiber.New()
 }
 
-func RunWeb(log *zap.SugaredLogger, lc fx.Lifecycle, app *fiber.App, config environment.Configuration) {
+func RunFiber(log *zap.SugaredLogger, lc fx.Lifecycle, app *fiber.App, config environment.Configuration) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) (err error) {
 			go func() {

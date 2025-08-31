@@ -9,7 +9,6 @@ require (
 	go.uber.org/fx v1.24.0
 	go.uber.org/zap v1.27.0
 	gorm.io/gorm v1.30.1
-	github.com/99designs/gqlgen v0.17.78
 )
 
 require (
