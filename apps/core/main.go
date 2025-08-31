@@ -1,9 +1,9 @@
 package main
 
 import (
-	"libs/core/di/api"
 	"libs/core/di/configuration"
 	"libs/core/di/feature"
+	"libs/core/di/handler"
 	"libs/core/feature/resource/restapi/service"
 
 	"github.com/gofiber/fiber/v3"
@@ -13,13 +13,15 @@ import (
 
 func main() {
 	app := fx.New(
-		api.WebModule,
-		api.MessagingModule,
-		api.GraphQLModule,
 		configuration.EnvironmentModule,
 		configuration.LoggingModule,
 		configuration.DatabaseModule,
 		configuration.ValidationModule,
+		configuration.WebModule,
+		configuration.MessagingModule,
+		configuration.GraphQLModule,
+		handler.GraphQLHandlerModule,
+		handler.RestHandlerModule,
 		feature.ApplicationModule,
 		feature.FeatureResourceRestApiModule,
 		feature.FeatureResourceRestModule,
