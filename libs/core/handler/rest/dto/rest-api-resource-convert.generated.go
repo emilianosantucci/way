@@ -4,9 +4,10 @@
 package dto
 
 import (
-	uuid "github.com/google/uuid"
 	http "libs/core/common/http"
-	model "libs/core/feature/resource/restapi/service/model"
+	model2 "libs/core/model"
+
+	uuid "github.com/google/uuid"
 )
 
 func NewRestApiResourceConverter() RestApiResourceConvert {
@@ -15,13 +16,13 @@ func NewRestApiResourceConverter() RestApiResourceConvert {
 
 type RestApiResourceConverter struct{}
 
-func (c *RestApiResourceConverter) FromNewToModel(source *NewRestApiResource, target *model.NewRestApiResource) {
+func (c *RestApiResourceConverter) FromNewToModel(source *NewRestApiResource, target *model2.NewRestApiResource) {
 	if source != nil {
 		target.Path = source.Path
 		target.Method = http.ToHttpMethod(source.Method)
 	}
 }
-func (c *RestApiResourceConverter) FromUpdateToModel(source *UpdateRestApiResource, target *model.UpdateRestApiResource) error {
+func (c *RestApiResourceConverter) FromUpdateToModel(source *UpdateRestApiResource, target *model2.UpdateRestApiResource) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
 		if err != nil {
@@ -33,7 +34,7 @@ func (c *RestApiResourceConverter) FromUpdateToModel(source *UpdateRestApiResour
 	}
 	return nil
 }
-func (c *RestApiResourceConverter) ToDto(source *model.RestApiResource, target *RestApiResource) {
+func (c *RestApiResourceConverter) ToDto(source *model2.RestApiResource, target *RestApiResource) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path

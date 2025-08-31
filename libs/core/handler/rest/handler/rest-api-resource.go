@@ -3,9 +3,9 @@ package handler
 import (
 	"errors"
 	"libs/core/common"
-	"libs/core/feature/resource/restapi/service"
-	"libs/core/feature/resource/restapi/service/model"
 	dto2 "libs/core/handler/rest/dto"
+	model2 "libs/core/model"
+	"libs/core/service"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewRestApiResourceHandler(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto2.RestApiResourceConvert) *RestApiResourceHandler {
+func NewRestApiResourceHandler(service *service.RestApiResourceService, log *zap.SugaredLogger, validator *validator.Validate, converter dto2.RestApiResourceConvert) *RestApiResourceHandler {
 	rest := &RestApiResourceHandler{
 		service,
 		log,
@@ -25,7 +25,7 @@ func NewRestApiResourceHandler(service *service.Service, log *zap.SugaredLogger,
 }
 
 type RestApiResourceHandler struct {
-	service   *service.Service
+	service   *service.RestApiResourceService
 	log       *zap.SugaredLogger
 	validator *validator.Validate
 	converter dto2.RestApiResourceConvert
@@ -44,10 +44,10 @@ func (r *RestApiResourceHandler) Create(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	newRestApi := new(model.NewRestApiResource)
+	newRestApi := new(model2.NewRestApiResource)
 	r.converter.FromNewToModel(request, newRestApi)
 
-	var app *model.RestApiResource
+	var app *model2.RestApiResource
 	if app, err = r.service.Create(ctx, newRestApi); err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func (r *RestApiResourceHandler) FindById(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	var restApi *model.RestApiResource
+	var restApi *model2.RestApiResource
 	if restApi, err = r.service.FindById(ctx, uuid.MustParse(id)); err != nil {
 		if errors.Is(err, common.ErrRestApiResourceNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -92,13 +92,13 @@ func (r *RestApiResourceHandler) Update(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	updApp := new(model.UpdateRestApiResource)
+	updApp := new(model2.UpdateRestApiResource)
 
 	if err = r.converter.FromUpdateToModel(request, updApp); err != nil {
 		return
 	}
 
-	var app *model.RestApiResource
+	var app *model2.RestApiResource
 	if app, err = r.service.Update(ctx, updApp); err != nil {
 		if errors.Is(err, common.ErrRestApiResourceNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)

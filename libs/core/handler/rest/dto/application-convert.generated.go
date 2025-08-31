@@ -4,9 +4,10 @@
 package dto
 
 import (
-	uuid "github.com/google/uuid"
 	common "libs/core/common"
-	model "libs/core/feature/application/service/model"
+	model2 "libs/core/model"
+
+	uuid "github.com/google/uuid"
 )
 
 func NewApplicationConverter() ApplicationConvert {
@@ -15,13 +16,13 @@ func NewApplicationConverter() ApplicationConvert {
 
 type ApplicationConverter struct{}
 
-func (c *ApplicationConverter) FromNewToModel(source *NewApplication, target *model.NewApplication) {
+func (c *ApplicationConverter) FromNewToModel(source *NewApplication, target *model2.NewApplication) {
 	if source != nil {
 		target.Name = source.Name
 		target.Version = source.Version
 	}
 }
-func (c *ApplicationConverter) FromUpdateToModel(source *UpdateApplication, target *model.UpdateApplication) error {
+func (c *ApplicationConverter) FromUpdateToModel(source *UpdateApplication, target *model2.UpdateApplication) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
 		if err != nil {
@@ -32,7 +33,7 @@ func (c *ApplicationConverter) FromUpdateToModel(source *UpdateApplication, targ
 	}
 	return nil
 }
-func (c *ApplicationConverter) ToDto(source *model.Application, target *Application) {
+func (c *ApplicationConverter) ToDto(source *model2.Application, target *Application) {
 	if source != nil {
 		target.ID = common.UuidToString(source.ID)
 		target.Name = source.Name

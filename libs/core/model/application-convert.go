@@ -1,25 +1,23 @@
-package dto
+package model
 
 import (
-	model2 "libs/core/model"
+	"libs/core/entity"
 )
 
 // goverter:converter
 // goverter:name ApplicationConverter
 // goverter:output:file ./application-convert.generated.go
-// goverter:extend libs/core/common:UuidToString
-// goverter:extend github.com/google/uuid:Parse
 // goverter:ignoreMissing
 // goverter:output:raw func NewApplicationConverter() ApplicationConvert {
 // goverter:output:raw    return &ApplicationConverter{}
 // goverter:output:raw }
 type ApplicationConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewApplication, target *model2.NewApplication)
+	FromNewToEntity(source *NewApplication, target *entity.Application)
 
 	// goverter:update target
-	ToDto(source *model2.Application, target *Application)
+	ToModel(source *entity.Application, target *Application)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateApplication, target *model2.UpdateApplication) (err error)
+	FromUpdateToEntity(source *UpdateApplication, target *entity.Application)
 }

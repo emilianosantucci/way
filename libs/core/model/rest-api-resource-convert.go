@@ -1,14 +1,12 @@
-package dto
+package model
 
 import (
-	model2 "libs/core/model"
+	"libs/core/entity"
 )
 
 // goverter:converter
 // goverter:name RestApiResourceConverter
 // goverter:output:file ./rest-api-resource-convert.generated.go
-// goverter:extend libs/core/common:UuidToString
-// goverter:extend github.com/google/uuid:Parse
 // goverter:ignoreMissing
 // goverter:output:raw func NewRestApiResourceConverter() RestApiResourceConvert {
 // goverter:output:raw    return &RestApiResourceConverter{}
@@ -17,11 +15,11 @@ import (
 // goverter:extend libs/core/common/http:ToHttpMethod
 type RestApiResourceConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewRestApiResource, target *model2.NewRestApiResource)
+	FromNewToEntity(source *NewRestApiResource, target *entity.RestApiResource)
 
 	// goverter:update target
-	ToDto(source *model2.RestApiResource, target *RestApiResource)
+	FromUpdateToEntity(source *UpdateRestApiResource, target *entity.RestApiResource)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateRestApiResource, target *model2.UpdateRestApiResource) (err error)
+	ToModel(source *entity.RestApiResource, target *RestApiResource)
 }
