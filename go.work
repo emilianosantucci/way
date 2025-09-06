@@ -12,8 +12,8 @@ use (
 	./libs/core/di
 	./libs/core/entity
 	./libs/core/framework
-	./libs/core/graphql
-	./libs/core/rest
+	./libs/core/handler/graphql
+	./libs/core/handler/rest
 	./libs/core/model
 	./libs/core/repository
 	./libs/core/service

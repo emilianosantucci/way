@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"libs/core/rest/handler"
+	"libs/core/handler/rest/handler"
 
 	"github.com/gofiber/fiber/v3"
 )

@@ -1,12 +1,12 @@
 package feature
 
 import (
+	"libs/core/handler/rest"
+	"libs/core/handler/rest/dto"
+	"libs/core/handler/rest/handler"
 	"libs/core/logging"
 	"libs/core/model/convert"
 	"libs/core/repository"
-	"libs/core/rest"
-	"libs/core/rest/dto"
-	"libs/core/rest/handler"
 	"libs/core/service"
 
 	"go.uber.org/fx"
