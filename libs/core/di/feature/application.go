@@ -1,6 +1,8 @@
 package feature
 
 import (
+	"libs/core/feature/application/api"
+	"libs/core/feature/application/api/dto"
 	"libs/core/feature/application/repository"
 	"libs/core/feature/application/service"
 	"libs/core/feature/application/service/model"
@@ -14,9 +16,12 @@ var ApplicationModule = fx.Module("feature-application",
 		fx.Private,
 		repository.NewRepository,
 		model.NewConverter,
+		dto.NewConverter,
+		api.NewRest,
 	),
 	fx.Invoke(
 		repository.RegisterEntities,
+		api.RegisterApiRest,
 	),
 	fx.Provide(
 		service.NewService,

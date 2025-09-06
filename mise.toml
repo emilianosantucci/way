@@ -24,5 +24,29 @@ run = "pnpm exec nx run-many -t test"
 [tasks."go:convert"]
 depends = "go:convert:*"
 
-[tasks."go:convert:handler:rest"]
-run = "goverter gen './libs/core/handler/rest/dto'"
+[tasks."go:convert:core-feature-application"]
+depends = "go:convert:core-feature-application:*"
+
+[tasks."go:convert:core-feature-application:dtos"]
+run = "goverter gen './libs/core/feature/application/.../dto/...'"
+
+[tasks."go:convert:core-feature-application:models"]
+run = "goverter gen './libs/core/feature/application/.../model/...'"
+
+[tasks."go:convert:core-feature-resource-restapi"]
+depends = "go:convert:core-feature-resource-restapi:*"
+
+[tasks."go:convert:core-feature-resource-restapi:dtos"]
+run = "goverter gen './libs/core/feature/resource/restapi/.../dto/...'"
+
+[tasks."go:convert:core-feature-resource-restapi:models"]
+run = "goverter gen './libs/core/feature/resource/restapi/.../model/...'"
+
+[tasks."go:convert:core-feature-resource-route"]
+depends = "go:convert:core-feature-resource-route:*"
+
+[tasks."go:convert:core-feature-resource-route:dtos"]
+run = "goverter gen './libs/core/feature/resource/route/.../dto/...'"
+
+[tasks."go:convert:core-feature-resource-route:models"]
+run = "goverter gen './libs/core/feature/resource/route/.../model/...'"

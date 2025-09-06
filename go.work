@@ -3,17 +3,16 @@ go 1.25.0
 use (
 	./apps/core
 	./libs/core/common
-	./libs/core/configuration/database
-	./libs/core/configuration/environment
-	./libs/core/configuration/logging
-	./libs/core/configuration/messaging
-	./libs/core/configuration/validation
-	./libs/core/configuration/web
+	./libs/core/database
 	./libs/core/di
+	./libs/core/environment
 	./libs/core/feature/application
 	./libs/core/feature/resource/restapi
 	./libs/core/feature/resource/route
 	./libs/core/framework
-	./libs/core/handler/graphql
-	./libs/core/handler/rest
+	./libs/core/graphql
+	./libs/core/logging
+	./libs/core/messaging
+	./libs/core/validation
+	./libs/core/web
 )
