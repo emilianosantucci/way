@@ -1,20 +1,15 @@
 schema:
   - schema/*.graphql
+  - ../feature/**/*.graphql
 exec:
   package: generated
   layout: follow-schema
   dir: generated
-  filename_template: "{name}.generated.go"
+  filename_template: "{name}-exec.generated.go"
 model:
   package: generated
   filename: generated/models.generated.go
 struct_tag: json
-#resolver:
-#  package: resolver
-#  layout: follow-schema
-#  dir: resolver
-#  filename_template: "{name}.resolver.go"
-#  preserve_resolver: true
 omit_resolver_fields: true
 models:
   UUID:

@@ -153,16 +153,16 @@ func (ec *executionContext) _Route(ctx context.Context, sel ast.SelectionSet, ob
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋmodelᚐNewRoute(ctx context.Context, v any) (NewRoute, error) {
+func (ec *executionContext) unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋgeneratedᚐNewRoute(ctx context.Context, v any) (NewRoute, error) {
 	res, err := ec.unmarshalInputNewRoute(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNRoute2libsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v Route) graphql.Marshaler {
+func (ec *executionContext) marshalNRoute2libsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx context.Context, sel ast.SelectionSet, v Route) graphql.Marshaler {
 	return ec._Route(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
+func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -172,7 +172,7 @@ func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRou
 	return ec._Route(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v []*Route) graphql.Marshaler {
+func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx context.Context, sel ast.SelectionSet, v []*Route) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -199,7 +199,7 @@ func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐ
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx, sel, v[i])
+			ret[i] = ec.marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -213,7 +213,7 @@ func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐ
 	return ret
 }
 
-func (ec *executionContext) marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
+func (ec *executionContext) marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

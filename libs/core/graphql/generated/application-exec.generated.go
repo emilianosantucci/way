@@ -33,7 +33,7 @@ type QueryResolver interface {
 func (ec *executionContext) field_Mutation_createApplication_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplication2libsᚋcoreᚋgraphqlᚋmodelᚐNewApplication)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplication2libsᚋcoreᚋgraphqlᚋgeneratedᚐNewApplication)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (ec *executionContext) field_Mutation_createApplication_args(ctx context.Co
 func (ec *executionContext) field_Mutation_createRoute_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋmodelᚐNewRoute)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋgeneratedᚐNewRoute)
 	if err != nil {
 		return nil, err
 	}
@@ -143,7 +143,7 @@ func (ec *executionContext) _Mutation_createApplication(ctx context.Context, fie
 	}
 	res := resTmp.(*Application)
 	fc.Result = res
-	return ec.marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx, field.Selections, res)
+	return ec.marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createApplication(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -202,7 +202,7 @@ func (ec *executionContext) _Mutation_createRoute(ctx context.Context, field gra
 	}
 	res := resTmp.(*Route)
 	fc.Result = res
-	return ec.marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx, field.Selections, res)
+	return ec.marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createRoute(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -258,7 +258,7 @@ func (ec *executionContext) _Query_applications(ctx context.Context, field graph
 	}
 	res := resTmp.([]*Application)
 	fc.Result = res
-	return ec.marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx, field.Selections, res)
+	return ec.marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_applications(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -303,7 +303,7 @@ func (ec *executionContext) _Query_routes(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*Route)
 	fc.Result = res
-	return ec.marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx, field.Selections, res)
+	return ec.marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐRoute(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_routes(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -680,11 +680,11 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNApplication2libsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx context.Context, sel ast.SelectionSet, v Application) graphql.Marshaler {
+func (ec *executionContext) marshalNApplication2libsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx context.Context, sel ast.SelectionSet, v Application) graphql.Marshaler {
 	return ec._Application(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx context.Context, sel ast.SelectionSet, v *Application) graphql.Marshaler {
+func (ec *executionContext) marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx context.Context, sel ast.SelectionSet, v *Application) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -694,12 +694,12 @@ func (ec *executionContext) marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋmodel
 	return ec._Application(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNNewApplication2libsᚋcoreᚋgraphqlᚋmodelᚐNewApplication(ctx context.Context, v any) (NewApplication, error) {
+func (ec *executionContext) unmarshalNNewApplication2libsᚋcoreᚋgraphqlᚋgeneratedᚐNewApplication(ctx context.Context, v any) (NewApplication, error) {
 	res, err := ec.unmarshalInputNewApplication(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx context.Context, sel ast.SelectionSet, v []*Application) graphql.Marshaler {
+func (ec *executionContext) marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx context.Context, sel ast.SelectionSet, v []*Application) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -726,7 +726,7 @@ func (ec *executionContext) marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋmo
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalOApplication2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx, sel, v[i])
+			ret[i] = ec.marshalOApplication2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -740,7 +740,7 @@ func (ec *executionContext) marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋmo
 	return ret
 }
 
-func (ec *executionContext) marshalOApplication2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐApplication(ctx context.Context, sel ast.SelectionSet, v *Application) graphql.Marshaler {
+func (ec *executionContext) marshalOApplication2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx context.Context, sel ast.SelectionSet, v *Application) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
