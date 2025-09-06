@@ -1,8 +1,8 @@
 {
   "name": "core-database",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/configuration/database",
+  "sourceRoot": "libs/core/database",
   "tags": [],
   "targets": {
     "test": {
