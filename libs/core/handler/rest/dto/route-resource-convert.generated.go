@@ -15,14 +15,14 @@ func NewRouteResourceConverter() RouteResourceConvert {
 
 type RouteResourceConverter struct{}
 
-func (c *RouteResourceConverter) FromNewToModel(source *NewRouteResource, target *model2.NewRouteResource) {
+func (c *RouteResourceConverter) FromNewToModel(source *NewRouteResource, target *model2.NewRoute) {
 	if source != nil {
 		target.Path = source.Path
 		target.Name = source.Name
 		target.Description = source.Description
 	}
 }
-func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRouteResource) error {
+func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRoute) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
 		if err != nil {
@@ -35,7 +35,7 @@ func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, 
 	}
 	return nil
 }
-func (c *RouteResourceConverter) ToDto(source *model2.RouteResource, target *RouteResource) {
+func (c *RouteResourceConverter) ToDto(source *model2.Route, target *RouteResource) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path

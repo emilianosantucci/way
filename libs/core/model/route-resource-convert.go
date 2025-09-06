@@ -1,25 +1,23 @@
-package dto
+package model
 
 import (
-	model2 "libs/core/model"
+	"libs/core/entity"
 )
 
 // goverter:converter
 // goverter:name RouteResourceConverter
 // goverter:output:file ./route-resource-convert.generated.go
-// goverter:extend libs/core/common:UuidToString
-// goverter:extend github.com/google/uuid:Parse
 // goverter:ignoreMissing
 // goverter:output:raw func NewRouteResourceConverter() RouteResourceConvert {
 // goverter:output:raw    return &RouteResourceConverter{}
 // goverter:output:raw }
 type RouteResourceConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewRouteResource, target *model2.NewRoute)
+	FromNewToEntity(source *NewRoute, target *entity.Route)
 
 	// goverter:update target
-	ToDto(source *model2.Route, target *RouteResource)
+	FromUpdateToEntity(source *UpdateRoute, target *entity.Route)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRoute) (err error)
+	ToModel(source *entity.Route, target *Route)
 }
