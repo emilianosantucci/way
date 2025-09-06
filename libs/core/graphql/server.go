@@ -2,7 +2,6 @@ package graphql
 
 import (
 	"libs/core/graphql/generated"
-	"libs/core/graphql/resolver"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -12,7 +11,7 @@ import (
 func NewServer() (srv *handler.Server, err error) {
 	srv = handler.New(
 		generated.NewExecutableSchema(generated.Config{
-			Resolvers: &resolver.Resolver{}},
+			Resolvers: &Resolver{}},
 		),
 	)
 

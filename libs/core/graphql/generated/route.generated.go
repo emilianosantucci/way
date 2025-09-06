@@ -5,7 +5,6 @@ package generated
 import (
 	"context"
 	"errors"
-	graphql1 "libs/core/graphql/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -28,7 +27,7 @@ import (
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Route_id(ctx context.Context, field graphql.CollectedField, obj *graphql1.Route) (ret graphql.Marshaler) {
+func (ec *executionContext) _Route_id(ctx context.Context, field graphql.CollectedField, obj *Route) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Route_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -76,8 +75,8 @@ func (ec *executionContext) fieldContext_Route_id(_ context.Context, field graph
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputNewRoute(ctx context.Context, obj any) (graphql1.NewRoute, error) {
-	var it graphql1.NewRoute
+func (ec *executionContext) unmarshalInputNewRoute(ctx context.Context, obj any) (NewRoute, error) {
+	var it NewRoute
 	asMap := map[string]any{}
 	for k, v := range obj.(map[string]any) {
 		asMap[k] = v
@@ -113,7 +112,7 @@ func (ec *executionContext) unmarshalInputNewRoute(ctx context.Context, obj any)
 
 var routeImplementors = []string{"Route"}
 
-func (ec *executionContext) _Route(ctx context.Context, sel ast.SelectionSet, obj *graphql1.Route) graphql.Marshaler {
+func (ec *executionContext) _Route(ctx context.Context, sel ast.SelectionSet, obj *Route) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, routeImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -154,16 +153,16 @@ func (ec *executionContext) _Route(ctx context.Context, sel ast.SelectionSet, ob
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋmodelᚐNewRoute(ctx context.Context, v any) (graphql1.NewRoute, error) {
+func (ec *executionContext) unmarshalNNewRoute2libsᚋcoreᚋgraphqlᚋmodelᚐNewRoute(ctx context.Context, v any) (NewRoute, error) {
 	res, err := ec.unmarshalInputNewRoute(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNRoute2libsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v graphql1.Route) graphql.Marshaler {
+func (ec *executionContext) marshalNRoute2libsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v Route) graphql.Marshaler {
 	return ec._Route(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *graphql1.Route) graphql.Marshaler {
+func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -173,7 +172,7 @@ func (ec *executionContext) marshalNRoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRou
 	return ec._Route(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v []*graphql1.Route) graphql.Marshaler {
+func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v []*Route) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
@@ -214,7 +213,7 @@ func (ec *executionContext) marshalORoute2ᚕᚖlibsᚋcoreᚋgraphqlᚋmodelᚐ
 	return ret
 }
 
-func (ec *executionContext) marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *graphql1.Route) graphql.Marshaler {
+func (ec *executionContext) marshalORoute2ᚖlibsᚋcoreᚋgraphqlᚋmodelᚐRoute(ctx context.Context, sel ast.SelectionSet, v *Route) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

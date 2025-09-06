@@ -26,10 +26,10 @@ func main() {
 		database.Module,
 		web.Module,
 		messaging.Module,
+		graphql.Module,
 		application.Module,
 		restapi.Module,
 		route.Module,
-		graphql.Module,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()

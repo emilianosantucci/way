@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	graphql1 "libs/core/graphql/model"
 	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
@@ -46,8 +45,8 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateApplication func(childComplexity int, input graphql1.NewApplication) int
-		CreateRoute       func(childComplexity int, input graphql1.NewRoute) int
+		CreateApplication func(childComplexity int, input NewApplication) int
+		CreateRoute       func(childComplexity int, input NewRoute) int
 	}
 
 	Query struct {
@@ -96,7 +95,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateApplication(childComplexity, args["input"].(graphql1.NewApplication)), true
+		return e.complexity.Mutation.CreateApplication(childComplexity, args["input"].(NewApplication)), true
 
 	case "Mutation.createRoute":
 		if e.complexity.Mutation.CreateRoute == nil {
@@ -108,7 +107,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateRoute(childComplexity, args["input"].(graphql1.NewRoute)), true
+		return e.complexity.Mutation.CreateRoute(childComplexity, args["input"].(NewRoute)), true
 
 	case "Query.applications":
 		if e.complexity.Query.Applications == nil {
