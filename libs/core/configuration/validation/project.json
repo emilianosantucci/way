@@ -1,8 +1,8 @@
 {
-  "name": "core-messaging",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "core-validation",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/messaging",
+  "sourceRoot": "libs/core/configuration/validation",
   "tags": [],
   "targets": {
     "test": {

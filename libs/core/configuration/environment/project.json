@@ -1,8 +1,8 @@
 {
-  "name": "core-validation",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "core-environment",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/validation",
+  "sourceRoot": "libs/core/configuration/environment",
   "tags": [],
   "targets": {
     "test": {
