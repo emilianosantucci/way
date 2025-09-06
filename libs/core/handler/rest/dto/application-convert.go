@@ -1,7 +1,7 @@
 package dto
 
 import (
-	model2 "libs/core/model"
+	"libs/core/feature/application/service/model"
 )
 
 // goverter:converter
@@ -15,11 +15,11 @@ import (
 // goverter:output:raw }
 type ApplicationConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewApplication, target *model2.NewApplication)
+	FromNewToModel(source *NewApplication, target *model.NewApplication)
 
 	// goverter:update target
-	ToDto(source *model2.Application, target *Application)
+	ToDto(source *model.Application, target *Application)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateApplication, target *model2.UpdateApplication) (err error)
+	FromUpdateToModel(source *UpdateApplication, target *model.UpdateApplication) (err error)
 }

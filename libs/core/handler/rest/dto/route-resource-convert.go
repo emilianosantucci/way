@@ -1,7 +1,7 @@
 package dto
 
 import (
-	model2 "libs/core/model"
+	"libs/core/feature/resource/route/service/model"
 )
 
 // goverter:converter
@@ -15,11 +15,11 @@ import (
 // goverter:output:raw }
 type RouteResourceConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewRouteResource, target *model2.NewRoute)
+	FromNewToModel(source *NewRouteResource, target *model.NewRoute)
 
 	// goverter:update target
-	ToDto(source *model2.Route, target *RouteResource)
+	ToDto(source *model.Route, target *RouteResource)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRoute) (err error)
+	FromUpdateToModel(source *UpdateRouteResource, target *model.UpdateRoute) (err error)
 }

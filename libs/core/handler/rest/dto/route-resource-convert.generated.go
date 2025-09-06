@@ -4,9 +4,8 @@
 package dto
 
 import (
-	model2 "libs/core/model"
-
 	uuid "github.com/google/uuid"
+	model "libs/core/feature/resource/route/service/model"
 )
 
 func NewRouteResourceConverter() RouteResourceConvert {
@@ -15,14 +14,14 @@ func NewRouteResourceConverter() RouteResourceConvert {
 
 type RouteResourceConverter struct{}
 
-func (c *RouteResourceConverter) FromNewToModel(source *NewRouteResource, target *model2.NewRoute) {
+func (c *RouteResourceConverter) FromNewToModel(source *NewRouteResource, target *model.NewRoute) {
 	if source != nil {
 		target.Path = source.Path
 		target.Name = source.Name
 		target.Description = source.Description
 	}
 }
-func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, target *model2.UpdateRoute) error {
+func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, target *model.UpdateRoute) error {
 	if source != nil {
 		uuidUUID, err := uuid.Parse(source.ID)
 		if err != nil {
@@ -35,7 +34,7 @@ func (c *RouteResourceConverter) FromUpdateToModel(source *UpdateRouteResource, 
 	}
 	return nil
 }
-func (c *RouteResourceConverter) ToDto(source *model2.Route, target *RouteResource) {
+func (c *RouteResourceConverter) ToDto(source *model.Route, target *RouteResource) {
 	if source != nil {
 		target.ID = c.uuidUUIDToUuidUUID(source.ID)
 		target.Path = source.Path

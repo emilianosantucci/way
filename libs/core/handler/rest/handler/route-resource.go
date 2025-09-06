@@ -3,9 +3,9 @@ package handler
 import (
 	"errors"
 	"libs/core/common"
+	"libs/core/feature/resource/route/service"
+	"libs/core/feature/resource/route/service/model"
 	dto2 "libs/core/handler/rest/dto"
-	model2 "libs/core/model"
-	"libs/core/service"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewRouteResourceHandler(service *service.RouteResourceService, log *zap.SugaredLogger, validator *validator.Validate, converter dto2.RouteResourceConvert) *RouteResourceHandler {
+func NewRouteResourceHandler(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto2.RouteResourceConvert) *RouteResourceHandler {
 	rest := &RouteResourceHandler{
 		service,
 		log,
@@ -25,7 +25,7 @@ func NewRouteResourceHandler(service *service.RouteResourceService, log *zap.Sug
 }
 
 type RouteResourceHandler struct {
-	service   *service.RouteResourceService
+	service   *service.Service
 	log       *zap.SugaredLogger
 	validator *validator.Validate
 	converter dto2.RouteResourceConvert
@@ -44,10 +44,10 @@ func (r *RouteResourceHandler) Create(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	newRoute := new(model2.NewRouteResource)
+	newRoute := new(model.NewRoute)
 	r.converter.FromNewToModel(request, newRoute)
 
-	var route *model2.RouteResource
+	var route *model.Route
 	if route, err = r.service.Create(ctx, newRoute); err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func (r *RouteResourceHandler) FindById(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	var route *model2.RouteResource
+	var route *model.Route
 	if route, err = r.service.FindById(ctx, uuid.MustParse(id)); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -79,7 +79,7 @@ func (r *RouteResourceHandler) FindById(ctx fiber.Ctx) (err error) {
 }
 
 func (r *RouteResourceHandler) FindAll(ctx fiber.Ctx) (err error) {
-	var routes []*model2.RouteResource
+	var routes []*model.Route
 	if routes, err = r.service.FindAll(ctx); err != nil {
 		return
 	}
@@ -99,7 +99,7 @@ func (r *RouteResourceHandler) FindByPath(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	var route *model2.RouteResource
+	var route *model.Route
 	if route, err = r.service.FindByPath(ctx, path); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -119,7 +119,7 @@ func (r *RouteResourceHandler) FindByName(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	var route *model2.RouteResource
+	var route *model.Route
 	if route, err = r.service.FindByName(ctx, name); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -147,13 +147,13 @@ func (r *RouteResourceHandler) Update(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	updRoute := new(model2.UpdateRouteResource)
+	updRoute := new(model.UpdateRoute)
 
 	if err = r.converter.FromUpdateToModel(request, updRoute); err != nil {
 		return
 	}
 
-	var route *model2.RouteResource
+	var route *model.Route
 	if route, err = r.service.Update(ctx, updRoute); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)

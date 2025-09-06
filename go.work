@@ -10,11 +10,10 @@ use (
 	./libs/core/configuration/validation
 	./libs/core/configuration/web
 	./libs/core/di
-	./libs/core/entity
+	./libs/core/feature/application
+	./libs/core/feature/resource/restapi
+	./libs/core/feature/resource/route
 	./libs/core/framework
 	./libs/core/handler/graphql
 	./libs/core/handler/rest
-	./libs/core/model
-	./libs/core/repository
-	./libs/core/service
 )

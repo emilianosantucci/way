@@ -1,9 +1,10 @@
 package main
 
 import (
-	"libs/core/di"
 	"libs/core/di/configuration"
+	"libs/core/di/feature"
 	"libs/core/di/handler"
+	"libs/core/feature/resource/restapi/service"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
@@ -21,15 +22,15 @@ func main() {
 		configuration.GraphQLModule,
 		handler.GraphQLHandlerModule,
 		handler.RestHandlerModule,
-		di.ServiceModule,
-		di.ModelModule,
-		di.RepositoryModule,
+		feature.ApplicationModule,
+		feature.FeatureResourceRestApiModule,
+		feature.FeatureResourceRestModule,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()
 }
 
-func TestingDI(log *zap.SugaredLogger, app *fiber.App) { // FIXME: remove me
+func TestingDI(log *zap.SugaredLogger, svc *service.Service, app *fiber.App) { // FIXME: remove me
 	//ctx := context.Background()
 	//var err error
 

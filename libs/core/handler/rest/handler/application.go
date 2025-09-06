@@ -3,9 +3,9 @@ package handler
 import (
 	"errors"
 	"libs/core/common"
+	"libs/core/feature/application/service"
+	"libs/core/feature/application/service/model"
 	"libs/core/handler/rest/dto"
-	model2 "libs/core/model"
-	"libs/core/service"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
@@ -13,7 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewApplicationHandler(service *service.ApplicationService, log *zap.SugaredLogger, validator *validator.Validate, converter dto.ApplicationConvert) *ApplicationHandler {
+func NewApplicationHandler(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto.ApplicationConvert) *ApplicationHandler {
 	rest := &ApplicationHandler{
 		service,
 		log,
@@ -25,7 +25,7 @@ func NewApplicationHandler(service *service.ApplicationService, log *zap.Sugared
 }
 
 type ApplicationHandler struct {
-	service   *service.ApplicationService
+	service   *service.Service
 	log       *zap.SugaredLogger
 	validator *validator.Validate
 	converter dto.ApplicationConvert
@@ -44,10 +44,10 @@ func (r *ApplicationHandler) Create(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	newApp := new(model2.NewApplication)
+	newApp := new(model.NewApplication)
 	r.converter.FromNewToModel(request, newApp)
 
-	var app *model2.Application
+	var app *model.Application
 	if app, err = r.service.Create(ctx, newApp); err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func (r *ApplicationHandler) FindById(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	var app *model2.Application
+	var app *model.Application
 	if app, err = r.service.FindById(ctx, uuid.MustParse(id)); err != nil {
 		if errors.Is(err, common.ErrApplicationNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -92,13 +92,13 @@ func (r *ApplicationHandler) Update(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	updApp := new(model2.UpdateApplication)
+	updApp := new(model.UpdateApplication)
 
 	if err = r.converter.FromUpdateToModel(request, updApp); err != nil {
 		return
 	}
 
-	var app *model2.Application
+	var app *model.Application
 	if app, err = r.service.Update(ctx, updApp); err != nil {
 		if errors.Is(err, common.ErrApplicationNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)

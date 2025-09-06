@@ -1,7 +1,7 @@
 package dto
 
 import (
-	model2 "libs/core/model"
+	"libs/core/feature/resource/restapi/service/model"
 )
 
 // goverter:converter
@@ -17,11 +17,11 @@ import (
 // goverter:extend libs/core/common/http:ToHttpMethod
 type RestApiResourceConvert interface {
 	// goverter:update target
-	FromNewToModel(source *NewRestApiResource, target *model2.NewRestApiResource)
+	FromNewToModel(source *NewRestApiResource, target *model.NewRestApiResource)
 
 	// goverter:update target
-	ToDto(source *model2.RestApiResource, target *RestApiResource)
+	ToDto(source *model.RestApiResource, target *RestApiResource)
 
 	// goverter:update target
-	FromUpdateToModel(source *UpdateRestApiResource, target *model2.UpdateRestApiResource) (err error)
+	FromUpdateToModel(source *UpdateRestApiResource, target *model.UpdateRestApiResource) (err error)
 }

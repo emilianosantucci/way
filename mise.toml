@@ -24,8 +24,5 @@ run = "pnpm exec nx run-many -t test"
 [tasks."go:convert"]
 depends = "go:convert:*"
 
-[tasks."go:convert:model"]
-run = "goverter gen './libs/core/model'"
-
 [tasks."go:convert:handler:rest"]
 run = "goverter gen './libs/core/handler/rest/dto'"
