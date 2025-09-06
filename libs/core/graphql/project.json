@@ -1,8 +1,8 @@
 {
-  "name": "core-rest",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "core-graphql",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/core/handler/rest",
+  "sourceRoot": "libs/core/graphql",
   "tags": [],
   "targets": {
     "test": {

@@ -3,8 +3,8 @@ package handler
 import (
 	"errors"
 	"libs/core/common"
-	"libs/core/handler/rest/dto"
 	model2 "libs/core/model"
+	"libs/core/rest/dto"
 	"libs/core/service"
 
 	"github.com/go-playground/validator/v10"

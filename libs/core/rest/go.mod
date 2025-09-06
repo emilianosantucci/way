@@ -1,4 +1,4 @@
-module libs/core/handler/rest
+module libs/core/rest
 
 go 1.25.0
 
