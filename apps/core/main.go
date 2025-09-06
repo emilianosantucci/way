@@ -1,9 +1,9 @@
 package main
 
 import (
-	"libs/core/di"
 	"libs/core/di/configuration"
-	"libs/core/di/handler"
+	"libs/core/di/feature"
+	"libs/core/logging"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
@@ -19,12 +19,12 @@ func main() {
 		configuration.WebModule,
 		configuration.MessagingModule,
 		configuration.GraphQLModule,
-		handler.GraphQLHandlerModule,
-		handler.RestHandlerModule,
-		di.ServiceModule,
-		di.ModelModule,
-		di.RepositoryModule,
+		feature.ApplicationModule,
+		feature.RestApiResourceModule,
+		feature.RouteResourceModule,
+		feature.GraphQLSchemaModule,
 		fx.Invoke(TestingDI),
+		fx.WithLogger(logging.FxLogger),
 	)
 	app.Run()
 }

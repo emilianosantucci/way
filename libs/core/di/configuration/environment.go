@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var EnvironmentModule = fx.Module("environment",
+var EnvironmentModule = fx.Module(configurationPrefix+"environment",
 	fx.Provide(environment.NewEnvironment),
 	fx.WithLogger(func(log *zap.Logger) fxevent.Logger {
 		return &fxevent.ZapLogger{Logger: log}

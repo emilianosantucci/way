@@ -7,7 +7,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var ValidationModule = fx.Module("validation",
+var ValidationModule = fx.Module(configurationPrefix+"validation",
 	fx.Provide(validation.NewValidator),
 	fx.Invoke(validation.RegisterCustomHttpValidators),
 	fx.WithLogger(logging.FxLogger),

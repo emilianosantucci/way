@@ -1,4 +1,4 @@
-package handler
+package feature
 
 import (
 	"libs/core/graphql"
@@ -7,7 +7,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var GraphQLHandlerModule = fx.Module("graphql-handler",
+var GraphQLSchemaModule = fx.Module(featurePrefix+"graphql-schema",
 	fx.Invoke(graphql.RegisterGraphQLHandler),
 	fx.WithLogger(logging.FxLogger),
 )
