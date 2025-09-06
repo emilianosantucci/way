@@ -1,4 +1,4 @@
-package feature
+package restapi
 
 import (
 	"libs/core/feature/resource/restapi/api"
@@ -11,7 +11,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var FeatureResourceRestApiModule = fx.Module("feature-resource-restapi",
+var Module = fx.Module("feature-resource-restapi",
 	fx.Provide(
 		fx.Private,
 		model.NewConverter,

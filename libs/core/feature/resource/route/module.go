@@ -1,4 +1,4 @@
-package feature
+package route
 
 import (
 	"libs/core/feature/resource/route/api"
@@ -11,7 +11,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var FeatureResourceRestModule = fx.Module("feature-resource-route",
+var Module = fx.Module("feature-resource-route",
 	fx.Provide(
 		fx.Private,
 		model.NewConverter,

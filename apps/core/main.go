@@ -1,10 +1,17 @@
 package main
 
 import (
-	"libs/core/di/api"
-	"libs/core/di/configuration"
-	"libs/core/di/feature"
+	"libs/core/database"
+	"libs/core/environment"
+	"libs/core/feature/application"
+	"libs/core/feature/resource/restapi"
 	"libs/core/feature/resource/restapi/service"
+	"libs/core/feature/resource/route"
+	"libs/core/graphql"
+	"libs/core/logging"
+	"libs/core/messaging"
+	"libs/core/validation"
+	"libs/core/web"
 
 	"github.com/gofiber/fiber/v3"
 	"go.uber.org/fx"
@@ -13,16 +20,16 @@ import (
 
 func main() {
 	app := fx.New(
-		api.WebModule,
-		api.MessagingModule,
-		api.GraphQLModule,
-		configuration.EnvironmentModule,
-		configuration.LoggingModule,
-		configuration.DatabaseModule,
-		configuration.ValidationModule,
-		feature.ApplicationModule,
-		feature.FeatureResourceRestApiModule,
-		feature.FeatureResourceRestModule,
+		environment.Module,
+		logging.Module,
+		validation.Module,
+		database.Module,
+		web.Module,
+		messaging.Module,
+		application.Module,
+		restapi.Module,
+		route.Module,
+		graphql.Module,
 		fx.Invoke(TestingDI),
 	)
 	app.Run()

@@ -4,7 +4,6 @@ use (
 	./apps/core
 	./libs/core/common
 	./libs/core/database
-	./libs/core/di
 	./libs/core/environment
 	./libs/core/feature/application
 	./libs/core/feature/resource/restapi
