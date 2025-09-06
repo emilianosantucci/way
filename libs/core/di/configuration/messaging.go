@@ -7,7 +7,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var MessagingModule = fx.Module(configurationPrefix+"messaging",
+var MessagingModule = fx.Module("messaging",
 	fx.Provide(
 		messaging.NewServer,
 		messaging.NewClient,

@@ -8,7 +8,7 @@ import (
 	"go.uber.org/fx"
 )
 
-var WebModule = fx.Module(configurationPrefix+"web",
+var WebModule = fx.Module("web",
 	fx.Provide(
 		web.NewFiber,
 	),
