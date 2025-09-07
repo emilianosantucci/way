@@ -2,26 +2,27 @@ package service
 
 import (
 	"context"
+	"libs/core/feature/resource/route/entity"
+	"libs/core/feature/resource/route/mapper"
+	"libs/core/feature/resource/route/model"
 	"libs/core/feature/resource/route/repository"
-	"libs/core/feature/resource/route/repository/entity"
-	"libs/core/feature/resource/route/service/model"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 )
 
-func NewService(repository *repository.Repository, validator *validator.Validate, converter model.Convert) (service *Service) {
+func NewService(repository *repository.Repository, validator *validator.Validate, mapper mapper.ModelMap) (service *Service) {
 	return &Service{
 		repository: repository,
 		validator:  validator,
-		converter:  converter,
+		mapper:     mapper,
 	}
 }
 
 type Service struct {
 	repository *repository.Repository
 	validator  *validator.Validate
-	converter  model.Convert
+	mapper     mapper.ModelMap
 }
 
 func (s *Service) Create(ctx context.Context, newRoute *model.NewRoute) (route *model.Route, err error) {
@@ -30,14 +31,14 @@ func (s *Service) Create(ctx context.Context, newRoute *model.NewRoute) (route *
 	}
 
 	ent := new(entity.Route)
-	s.converter.FromNewToEntity(newRoute, ent)
+	s.mapper.FromNewToEntity(newRoute, ent)
 
 	if err = s.repository.Create(ctx, ent); err != nil {
 		return
 	}
 
 	route = new(model.Route)
-	s.converter.ToModel(ent, route)
+	s.mapper.ToModel(ent, route)
 
 	return
 }
@@ -47,7 +48,7 @@ func (s *Service) Update(ctx context.Context, updRoute *model.UpdateRoute) (rout
 		return
 	}
 	ent := new(entity.Route)
-	s.converter.FromUpdateToEntity(updRoute, ent)
+	s.mapper.FromUpdateToEntity(updRoute, ent)
 
 	if err = s.repository.Update(ctx, ent); err != nil {
 		return
@@ -75,7 +76,7 @@ func (s *Service) FindById(ctx context.Context, id uuid.UUID) (route *model.Rout
 	}
 
 	route = new(model.Route)
-	s.converter.ToModel(ent, route)
+	s.mapper.ToModel(ent, route)
 
 	return
 }
@@ -89,7 +90,7 @@ func (s *Service) FindAll(ctx context.Context) (routes []*model.Route, err error
 	routes = make([]*model.Route, len(ents))
 	for i, ent := range ents {
 		routes[i] = new(model.Route)
-		s.converter.ToModel(ent, routes[i])
+		s.mapper.ToModel(ent, routes[i])
 	}
 
 	return
@@ -106,7 +107,7 @@ func (s *Service) FindByPath(ctx context.Context, path string) (route *model.Rou
 	}
 
 	route = new(model.Route)
-	s.converter.ToModel(ent, route)
+	s.mapper.ToModel(ent, route)
 
 	return
 }
@@ -122,7 +123,7 @@ func (s *Service) FindByName(ctx context.Context, name string) (route *model.Rou
 	}
 
 	route = new(model.Route)
-	s.converter.ToModel(ent, route)
+	s.mapper.ToModel(ent, route)
 
 	return
 }

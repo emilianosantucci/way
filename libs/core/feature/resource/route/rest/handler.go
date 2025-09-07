@@ -1,11 +1,12 @@
-package api
+package rest
 
 import (
 	"errors"
 	"libs/core/common"
-	"libs/core/feature/resource/route/api/dto"
+	"libs/core/feature/resource/route/mapper"
+	model2 "libs/core/feature/resource/route/model"
+	"libs/core/feature/resource/route/rest/dto"
 	"libs/core/feature/resource/route/service"
-	"libs/core/feature/resource/route/service/model"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
@@ -13,18 +14,16 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewRest(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto.Convert) *Rest {
-	rest := &Rest{
+func NewHandler(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, mapper mapper.RestDtoMap) (handler *Handler) {
+	return &Handler{
 		service,
 		log,
 		validator,
-		converter,
+		mapper,
 	}
-
-	return rest
 }
 
-func RegisterApiRest(app *fiber.App, handler *Rest) {
+func RegisterHandler(app *fiber.App, handler *Handler) {
 	app.Post("/resources/routes/", handler.create)
 	app.Put("/resources/routes/:id", handler.update)
 	app.Delete("/resources/routes/:id", handler.delete)
@@ -34,14 +33,14 @@ func RegisterApiRest(app *fiber.App, handler *Rest) {
 	app.Get("/resources/routes/by-name/:name", handler.findByName)
 }
 
-type Rest struct {
+type Handler struct {
 	service   *service.Service
 	log       *zap.SugaredLogger
 	validator *validator.Validate
-	converter dto.Convert
+	mapper    mapper.RestDtoMap
 }
 
-func (r *Rest) create(ctx fiber.Ctx) (err error) {
+func (r *Handler) create(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	request := new(dto.NewRoute)
@@ -54,27 +53,27 @@ func (r *Rest) create(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	newRoute := new(model.NewRoute)
-	r.converter.FromNewToModel(request, newRoute)
+	newRoute := new(model2.NewRoute)
+	r.mapper.FromNewToModel(request, newRoute)
 
-	var route *model.Route
+	var route *model2.Route
 	if route, err = r.service.Create(ctx, newRoute); err != nil {
 		return
 	}
 
 	response := new(dto.Route)
-	r.converter.ToDto(route, response)
+	r.mapper.ToDto(route, response)
 
 	return ctx.Status(fiber.StatusCreated).JSON(response)
 }
 
-func (r *Rest) findById(ctx fiber.Ctx) (err error) {
+func (r *Handler) findById(ctx fiber.Ctx) (err error) {
 	id := ctx.Params("id")
 	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
 		return
 	}
 
-	var route *model.Route
+	var route *model2.Route
 	if route, err = r.service.FindById(ctx, uuid.MustParse(id)); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -83,13 +82,13 @@ func (r *Rest) findById(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.Route)
-	r.converter.ToDto(route, response)
+	r.mapper.ToDto(route, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) findAll(ctx fiber.Ctx) (err error) {
-	var routes []*model.Route
+func (r *Handler) findAll(ctx fiber.Ctx) (err error) {
+	var routes []*model2.Route
 	if routes, err = r.service.FindAll(ctx); err != nil {
 		return
 	}
@@ -97,19 +96,19 @@ func (r *Rest) findAll(ctx fiber.Ctx) (err error) {
 	response := make([]*dto.Route, len(routes))
 	for i, route := range routes {
 		response[i] = new(dto.Route)
-		r.converter.ToDto(route, response[i])
+		r.mapper.ToDto(route, response[i])
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) findByPath(ctx fiber.Ctx) (err error) {
+func (r *Handler) findByPath(ctx fiber.Ctx) (err error) {
 	path := ctx.Params("path")
 	if err = r.validator.VarCtx(ctx, path, "required,min=1"); err != nil {
 		return
 	}
 
-	var route *model.Route
+	var route *model2.Route
 	if route, err = r.service.FindByPath(ctx, path); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -118,18 +117,18 @@ func (r *Rest) findByPath(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.Route)
-	r.converter.ToDto(route, response)
+	r.mapper.ToDto(route, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) findByName(ctx fiber.Ctx) (err error) {
+func (r *Handler) findByName(ctx fiber.Ctx) (err error) {
 	name := ctx.Params("name")
 	if err = r.validator.VarCtx(ctx, name, "required,min=1"); err != nil {
 		return
 	}
 
-	var route *model.Route
+	var route *model2.Route
 	if route, err = r.service.FindByName(ctx, name); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -138,12 +137,12 @@ func (r *Rest) findByName(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.Route)
-	r.converter.ToDto(route, response)
+	r.mapper.ToDto(route, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) update(ctx fiber.Ctx) (err error) {
+func (r *Handler) update(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	id := ctx.Params("id")
@@ -157,13 +156,13 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 		return
 	}
 
-	updRoute := new(model.UpdateRoute)
+	updRoute := new(model2.UpdateRoute)
 
-	if err = r.converter.FromUpdateToModel(request, updRoute); err != nil {
+	if err = r.mapper.FromUpdateToModel(request, updRoute); err != nil {
 		return
 	}
 
-	var route *model.Route
+	var route *model2.Route
 	if route, err = r.service.Update(ctx, updRoute); err != nil {
 		if errors.Is(err, common.ErrRouteNotFound) {
 			return ctx.Status(fiber.StatusNotFound).JSON(err)
@@ -172,12 +171,12 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.Route)
-	r.converter.ToDto(route, response)
+	r.mapper.ToDto(route, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) delete(ctx fiber.Ctx) (err error) {
+func (r *Handler) delete(ctx fiber.Ctx) (err error) {
 	id := ctx.Params("id")
 	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
 		return

@@ -4,7 +4,7 @@ import (
 	"context"
 	"libs/core/feature/resource/restapi/entity"
 	"libs/core/feature/resource/restapi/mapper"
-	model2 "libs/core/feature/resource/restapi/model"
+	"libs/core/feature/resource/restapi/model"
 	"libs/core/feature/resource/restapi/repository"
 
 	"github.com/go-playground/validator/v10"
@@ -25,7 +25,7 @@ type Service struct {
 	mapper     mapper.ModelMap
 }
 
-func (s *Service) Create(ctx context.Context, newRest *model2.NewRestApiResource) (rest *model2.RestApiResource, err error) {
+func (s *Service) Create(ctx context.Context, newRest *model.NewRestApiResource) (rest *model.RestApiResource, err error) {
 	if err = s.validator.StructCtx(ctx, newRest); err != nil {
 		return
 	}
@@ -37,13 +37,13 @@ func (s *Service) Create(ctx context.Context, newRest *model2.NewRestApiResource
 		return
 	}
 
-	rest = new(model2.RestApiResource)
+	rest = new(model.RestApiResource)
 	s.mapper.ToModel(ent, rest)
 
 	return
 }
 
-func (s *Service) Update(ctx context.Context, updRest *model2.UpdateRestApiResource) (rest *model2.RestApiResource, err error) {
+func (s *Service) Update(ctx context.Context, updRest *model.UpdateRestApiResource) (rest *model.RestApiResource, err error) {
 	if err = s.validator.StructCtx(ctx, updRest); err != nil {
 		return
 	}
@@ -65,7 +65,7 @@ func (s *Service) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	return s.repository.Delete(ctx, id)
 }
 
-func (s *Service) FindById(ctx context.Context, id uuid.UUID) (rest *model2.RestApiResource, err error) {
+func (s *Service) FindById(ctx context.Context, id uuid.UUID) (rest *model.RestApiResource, err error) {
 	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
 		return
 	}
@@ -75,7 +75,7 @@ func (s *Service) FindById(ctx context.Context, id uuid.UUID) (rest *model2.Rest
 		return
 	}
 
-	rest = new(model2.RestApiResource)
+	rest = new(model.RestApiResource)
 	s.mapper.ToModel(ent, rest)
 
 	return
