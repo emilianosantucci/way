@@ -41,7 +41,9 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Application struct {
-		ID func(childComplexity int) int
+		ID      func(childComplexity int) int
+		Name    func(childComplexity int) int
+		Version func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -84,6 +86,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Application.ID(childComplexity), true
+
+	case "Application.name":
+		if e.complexity.Application.Name == nil {
+			break
+		}
+
+		return e.complexity.Application.Name(childComplexity), true
+
+	case "Application.version":
+		if e.complexity.Application.Version == nil {
+			break
+		}
+
+		return e.complexity.Application.Version(childComplexity), true
 
 	case "Mutation.createApplication":
 		if e.complexity.Mutation.CreateApplication == nil {
@@ -240,10 +256,13 @@ var sources = []*ast.Source{
 	{Name: "../schema/root.graphql", Input: ``, BuiltIn: false},
 	{Name: "../../feature/application/graphql/application.graphql", Input: `input NewApplication {
     name: String!
+    version: String!
 }
 
 type Application {
     id: ID!
+    name: String!
+    version: String!
 }
 
 extend type Mutation {

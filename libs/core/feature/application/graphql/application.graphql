@@ -1,9 +1,12 @@
 input NewApplication {
     name: String!
+    version: String!
 }
 
 type Application {
     id: ID!
+    name: String!
+    version: String!
 }
 
 extend type Mutation {

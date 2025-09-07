@@ -3,14 +3,17 @@
 package generated
 
 type Application struct {
-	ID string `json:"id"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Version string `json:"version"`
 }
 
 type Mutation struct {
 }
 
 type NewApplication struct {
-	Name string `json:"name"`
+	Name    string `json:"name"`
+	Version string `json:"version"`
 }
 
 type NewRoute struct {

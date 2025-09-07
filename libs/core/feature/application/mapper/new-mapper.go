@@ -2,10 +2,14 @@
 
 package mapper
 
-func NewDtoMapper() RestDtoMap {
+func NewRestDtoMapper() RestDtoMap {
 	return &RestDtoMapper{}
 }
 
 func NewModelMapper() ModelMap {
 	return &ModelMapper{}
+}
+
+func NewGraphqlDtoMapper() GraphqlDtoMap {
+	return &GraphqlDtoMapper{}
 }
