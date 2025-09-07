@@ -3,13 +3,21 @@ package graphql
 import (
 	"context"
 	"fmt"
+	"libs/core/feature/resource/route/service"
 	"libs/core/graphql/generated"
 )
 
-type RouteResourceQueryResolver struct {
+func NewQueryResolver(svc *service.Service) *QueryResolver {
+	return &QueryResolver{
+		service: svc,
+	}
+}
+
+type QueryResolver struct {
+	service *service.Service
 }
 
 // Routes is the resolver for the routes field.
-func (r *RouteResourceQueryResolver) Routes(ctx context.Context) ([]*generated.Route, error) {
+func (r *QueryResolver) Routes(ctx context.Context) ([]*generated.Route, error) {
 	panic(fmt.Errorf("not implemented: Routes - routes"))
 }

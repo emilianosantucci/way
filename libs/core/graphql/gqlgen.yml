@@ -1,6 +1,6 @@
 schema:
   - schema/*.graphql
-  - ../feature/**/*.graphql
+  - ../feature/**/graphql/*.graphql
 exec:
   package: generated
   layout: follow-schema

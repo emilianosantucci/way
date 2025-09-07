@@ -1,6 +1,7 @@
 package application
 
 import (
+	"libs/core/feature/application/graphql"
 	"libs/core/feature/application/mapper"
 	"libs/core/feature/application/repository"
 	"libs/core/feature/application/rest"
@@ -17,13 +18,17 @@ var Module = fx.Module("application",
 		mapper.NewModelMapper,
 		mapper.NewDtoMapper,
 		rest.NewHandler,
+		graphql.NewResolver,
+		graphql.NewMutationResolver,
+		graphql.NewQueryResolver,
+	),
+	fx.Provide(
+		service.NewService,
+		graphql.NewResolver,
 	),
 	fx.Invoke(
 		repository.RegisterEntities,
 		rest.RegisterHandler,
-	),
-	fx.Provide(
-		service.NewService,
 	),
 	fx.WithLogger(logging.FxLogger),
 )

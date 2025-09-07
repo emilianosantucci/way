@@ -1,6 +1,7 @@
 package route
 
 import (
+	"libs/core/feature/resource/route/graphql"
 	"libs/core/feature/resource/route/mapper"
 	"libs/core/feature/resource/route/repository"
 	"libs/core/feature/resource/route/rest"
@@ -17,9 +18,12 @@ var Module = fx.Module("feature-resource-route",
 		repository.NewRepository,
 		mapper.NewRestDtoMapper,
 		rest.NewHandler,
+		graphql.NewQueryResolver,
+		graphql.NewMutationResolver,
 	),
 	fx.Provide(
 		service.NewService,
+		graphql.NewResolver,
 	),
 	fx.Invoke(
 		repository.RegisterEntities,

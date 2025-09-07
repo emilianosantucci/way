@@ -7,22 +7,13 @@ pnpm = "latest"
 "go:github.com/99designs/gqlgen" = { version = "v0.17.78", tags = "gqlgen" }
 
 [env]
-MISE_GO_SET_GOROOT= true
+MISE_GO_SET_GOROOT = true
 
 [tasks."go:build"]
 run = "pnpm exec nx run-many -t build"
 
-[tasks."go:tidy"]
-run = "pnpm exec nx run-many -t tidy"
-
-[tasks."go:lint"]
-run = "pnpm exec nx run-many -t lint"
-
-[tasks."go:test"]
-run = "pnpm exec nx run-many -t test"
-
 [tasks."go:convert"]
-depends = "go:convert:*"
+run = ["mise run go:convert:*"]
 
 [tasks."go:convert:core-feature-application"]
 run = "goverter gen './libs/core/feature/application/mapper/'"
@@ -32,3 +23,16 @@ run = "goverter gen './libs/core/feature/resource/restapi/mapper'"
 
 [tasks."go:convert:core-feature-resource-route"]
 run = "goverter gen './libs/core/feature/resource/route/mapper'"
+
+[tasks."go:graphql"]
+dir = "./libs/core/graphql"
+run = "gqlgen generate"
+
+[tasks."go:lint"]
+run = "pnpm exec nx run-many -t lint"
+
+[tasks."go:test"]
+run = "pnpm exec nx run-many -t test"
+
+[tasks."go:tidy"]
+run = "pnpm exec nx run-many -t tidy"

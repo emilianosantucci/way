@@ -4,10 +4,9 @@
 package mapper
 
 import (
-	"libs/core/feature/resource/route/entity"
-	model "libs/core/feature/resource/route/model"
-
 	uuid "github.com/google/uuid"
+	entity "libs/core/feature/resource/route/entity"
+	model "libs/core/feature/resource/route/model"
 )
 
 type ModelMapper struct{}
