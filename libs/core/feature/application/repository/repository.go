@@ -2,9 +2,8 @@ package repository
 
 import (
 	"context"
-	"libs/core/feature/application/repository/entity"
-
 	"libs/core/common"
+	"libs/core/feature/application/entity"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
