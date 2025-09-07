@@ -1,11 +1,10 @@
 package restapi
 
 import (
-	"libs/core/feature/resource/restapi/api"
-	"libs/core/feature/resource/restapi/api/dto"
+	"libs/core/feature/resource/restapi/mapper"
 	"libs/core/feature/resource/restapi/repository"
+	"libs/core/feature/resource/restapi/rest"
 	"libs/core/feature/resource/restapi/service"
-	"libs/core/feature/resource/restapi/service/model"
 	"libs/core/logging"
 
 	"go.uber.org/fx"
@@ -14,17 +13,17 @@ import (
 var Module = fx.Module("feature-resource-restapi",
 	fx.Provide(
 		fx.Private,
-		model.NewConverter,
+		mapper.NewModelMapper,
 		repository.NewRepository,
-		dto.NewConverter,
-		api.NewRest,
+		mapper.NewRestDtoMapper,
+		rest.NewHandler,
 	),
 	fx.Provide(
 		service.NewService,
 	),
 	fx.Invoke(
 		repository.RegisterEntities,
-		api.RegisterApiRest,
+		rest.RegisterHandler,
 	),
 	fx.WithLogger(logging.FxLogger),
 )

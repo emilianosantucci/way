@@ -1,11 +1,12 @@
-package api
+package rest
 
 import (
 	"errors"
 	"libs/core/common"
-	"libs/core/feature/resource/restapi/api/dto"
+	"libs/core/feature/resource/restapi/mapper"
+	"libs/core/feature/resource/restapi/model"
+	"libs/core/feature/resource/restapi/rest/dto"
 	"libs/core/feature/resource/restapi/service"
-	"libs/core/feature/resource/restapi/service/model"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
@@ -13,32 +14,30 @@ import (
 	"go.uber.org/zap"
 )
 
-func NewRest(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, converter dto.Convert) *Rest {
-	rest := &Rest{
+func NewHandler(service *service.Service, log *zap.SugaredLogger, validator *validator.Validate, mapper mapper.RestDtoMap) (handler *Handler) {
+	return &Handler{
 		service,
 		log,
 		validator,
-		converter,
+		mapper,
 	}
-
-	return rest
 }
 
-func RegisterApiRest(app *fiber.App, handler *Rest) {
+func RegisterHandler(app *fiber.App, handler *Handler) {
 	app.Post("/resources/rest-apis/", handler.create)
 	app.Put("/resources/rest-apis/:id", handler.update)
 	app.Delete("/resources/rest-apis/:id", handler.delete)
 	app.Get("/resources/rest-apis/:id", handler.findById)
 }
 
-type Rest struct {
+type Handler struct {
 	service   *service.Service
 	log       *zap.SugaredLogger
 	validator *validator.Validate
-	converter dto.Convert
+	mapper    mapper.RestDtoMap
 }
 
-func (r *Rest) create(ctx fiber.Ctx) (err error) {
+func (r *Handler) create(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	request := new(dto.NewRestApiResource)
@@ -52,7 +51,7 @@ func (r *Rest) create(ctx fiber.Ctx) (err error) {
 	}
 
 	newRestApi := new(model.NewRestApiResource)
-	r.converter.FromNewToModel(request, newRestApi)
+	r.mapper.FromNewToModel(request, newRestApi)
 
 	var app *model.RestApiResource
 	if app, err = r.service.Create(ctx, newRestApi); err != nil {
@@ -60,12 +59,12 @@ func (r *Rest) create(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.RestApiResource)
-	r.converter.ToDto(app, response)
+	r.mapper.ToDto(app, response)
 
 	return ctx.Status(fiber.StatusCreated).JSON(response)
 }
 
-func (r *Rest) findById(ctx fiber.Ctx) (err error) {
+func (r *Handler) findById(ctx fiber.Ctx) (err error) {
 	id := ctx.Params("id")
 	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
 		return
@@ -80,12 +79,12 @@ func (r *Rest) findById(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.RestApiResource)
-	r.converter.ToDto(restApi, response)
+	r.mapper.ToDto(restApi, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) update(ctx fiber.Ctx) (err error) {
+func (r *Handler) update(ctx fiber.Ctx) (err error) {
 	ctx.Accepts(fiber.MIMEApplicationJSON)
 
 	id := ctx.Params("id")
@@ -101,7 +100,7 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 
 	updApp := new(model.UpdateRestApiResource)
 
-	if err = r.converter.FromUpdateToModel(request, updApp); err != nil {
+	if err = r.mapper.FromUpdateToModel(request, updApp); err != nil {
 		return
 	}
 
@@ -114,12 +113,12 @@ func (r *Rest) update(ctx fiber.Ctx) (err error) {
 	}
 
 	response := new(dto.RestApiResource)
-	r.converter.ToDto(app, response)
+	r.mapper.ToDto(app, response)
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
-func (r *Rest) delete(ctx fiber.Ctx) (err error) {
+func (r *Handler) delete(ctx fiber.Ctx) (err error) {
 	id := ctx.Params("id")
 	if err = r.validator.VarCtx(ctx, id, "required,uuid4_rfc4122"); err != nil {
 		return

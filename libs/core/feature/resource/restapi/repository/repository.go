@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"libs/core/common"
-	"libs/core/feature/resource/restapi/repository/entity"
+	"libs/core/feature/resource/restapi/entity"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
