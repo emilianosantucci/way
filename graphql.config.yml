@@ -1,0 +1,6 @@
+schema:
+  - ./libs/core/graphql/excluded-from-generation.graphql
+  - ./libs/**/graphql/schema/*.graphql
+documents:
+  - ./libs/**/graphql/fragment/*.graphql
+  - ./libs/**/graphql/operation/*.graphql

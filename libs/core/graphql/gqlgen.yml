@@ -1,6 +1,8 @@
 schema:
   - schema/*.graphql
-  - ../feature/**/graphql/*.graphql
+  - ../feature/**/graphql/schema/*.graphql
+  - ../feature/**/graphql/fragment/*.graphql
+  - ../feature/**/graphql/operation/*.graphql
 exec:
   package: generated
   layout: follow-schema
@@ -11,6 +13,7 @@ model:
   filename: generated/models.generated.go
 struct_tag: json
 omit_resolver_fields: true
+omit_root_models: true
 models:
   UUID:
     model:

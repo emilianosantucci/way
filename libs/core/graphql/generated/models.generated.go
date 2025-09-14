@@ -8,9 +8,6 @@ type Application struct {
 	Version string `json:"version"`
 }
 
-type Mutation struct {
-}
-
 type NewApplication struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
@@ -18,9 +15,6 @@ type NewApplication struct {
 
 type NewRoute struct {
 	Name string `json:"name"`
-}
-
-type Query struct {
 }
 
 type Route struct {

@@ -254,7 +254,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 
 var sources = []*ast.Source{
 	{Name: "../schema/root.graphql", Input: ``, BuiltIn: false},
-	{Name: "../../feature/application/graphql/application.graphql", Input: `input NewApplication {
+	{Name: "../../feature/application/graphql/schema/application.graphql", Input: `input NewApplication {
     name: String!
     version: String!
 }
@@ -272,7 +272,7 @@ extend type Mutation {
 extend type Query {
     applications: [Application]
 }`, BuiltIn: false},
-	{Name: "../../feature/resource/route/graphql/route.graphql", Input: `input NewRoute {
+	{Name: "../../feature/resource/route/graphql/schema/route.graphql", Input: `input NewRoute {
     name: String!
 }
 
