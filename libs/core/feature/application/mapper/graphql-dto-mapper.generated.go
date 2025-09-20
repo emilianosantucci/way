@@ -34,6 +34,25 @@ func (c *GraphqlDtoMapper) ToDtos(source []model.Application) []*generated.Appli
 	}
 	return pGeneratedApplicationList
 }
+func (c *GraphqlDtoMapper) ToPagination(source *model.PaginatedApplications, target *generated.ApplicationPagination) {
+	if source != nil {
+		target.Data = c.ToDtos(source.Data)
+		target.Page = c.commonCursorPageResponseToPGeneratedCursorPage(source.Page)
+	}
+}
+func (c *GraphqlDtoMapper) commonCursorPageResponseToPGeneratedCursorPage(source common.CursorPageResponse) *generated.CursorPage {
+	var generatedCursorPage generated.CursorPage
+	if source.Previous != nil {
+		xstring := *source.Previous
+		generatedCursorPage.Previous = &xstring
+	}
+	if source.Next != nil {
+		xstring2 := *source.Next
+		generatedCursorPage.Next = &xstring2
+	}
+	generatedCursorPage.Total = source.Total
+	return &generatedCursorPage
+}
 func (c *GraphqlDtoMapper) modelApplicationToPGeneratedApplication(source model.Application) *generated.Application {
 	var generatedApplication generated.Application
 	generatedApplication.ID = common.UuidToString(source.ID)

@@ -97,3 +97,18 @@ func (s *Service) FindAll(ctx context.Context) (apps []model.Application, err er
 	apps = s.mapper.ToModels(entities)
 	return
 }
+
+func (s *Service) FindAllPaginated(ctx context.Context, pageReq *common.CursorPageRequest) (pageRes *model.PaginatedApplications, err error) {
+	entities, cursor, err := s.repository.FindAllPaginated(ctx, pageReq)
+
+	if err != nil {
+		return
+	}
+
+	apps := s.mapper.ToModels(entities)
+	pageRes = &model.PaginatedApplications{
+		Data: apps,
+		Page: cursor,
+	}
+	return
+}

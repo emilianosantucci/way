@@ -1,10 +1,11 @@
 package environment
 
 type Configuration struct {
-	Profile   string                `mapstructure:"PROFILE"`
-	DB        DatabaseConfiguration `mapstructure:",squash"`
-	Web       WebConfiguration      `mapstructure:",squash"`
-	Messaging Messaging             `mapstructure:",squash"`
+	Profile    string                `mapstructure:"PROFILE"`
+	DB         DatabaseConfiguration `mapstructure:",squash"`
+	Web        WebConfiguration      `mapstructure:",squash"`
+	Messaging  Messaging             `mapstructure:",squash"`
+	Pagination Pagination            `mapstructure:",squash"`
 }
 
 type DatabaseConfiguration struct {
@@ -23,4 +24,8 @@ type WebConfiguration struct {
 
 type Messaging struct {
 	ServerReadyTimeout int `mapstructure:"MESSAGING_SERVER_READY_TIMEOUT"`
+}
+
+type Pagination struct {
+	MaxSize int `mapstructure:"PAGINATION_MAX_SIZE"`
 }

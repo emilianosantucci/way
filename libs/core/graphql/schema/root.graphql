@@ -2,13 +2,13 @@ interface PageItem {
     id: ID!
 }
 
-type CursorPaging {
-    next: ID!
-    previous: ID!
+type CursorPage {
+    previous: ID
+    next: ID
     total: Int!
 }
 
 interface CursorPagination {
-    items: [PageItem]
-    paging: CursorPaging!
+    data: [PageItem]
+    page: CursorPage!
 }

@@ -2,7 +2,7 @@ package graphql
 
 import (
 	"context"
-	"fmt"
+	"libs/core/common"
 	"libs/core/feature/application/mapper"
 	"libs/core/feature/application/model"
 	"libs/core/feature/application/service"
@@ -34,6 +34,22 @@ func (r *QueryResolver) Applications(ctx context.Context) (apps []*generated.App
 	return
 }
 
-func (r *QueryResolver) ApplicationsPaginated(ctx context.Context, size int, after string, before string) (apps *generated.ApplicationPagination, err error) {
-	panic(fmt.Errorf("not implemented: Applications - applicationsPaginated"))
+func (r *QueryResolver) ApplicationsPaginated(ctx context.Context, size int, after *string, before *string) (pageRes *generated.ApplicationPagination, err error) {
+	page := &common.CursorPageRequest{
+		Size:   size,
+		Before: before,
+		After:  after,
+	}
+
+	var result *model.PaginatedApplications
+	result, err = r.service.FindAllPaginated(ctx, page)
+
+	if err != nil {
+		return
+	}
+
+	pageRes = new(generated.ApplicationPagination)
+	r.mapper.ToPagination(result, pageRes)
+
+	return
 }

@@ -4,8 +4,8 @@ package generated
 
 type CursorPagination interface {
 	IsCursorPagination()
-	GetItems() []PageItem
-	GetPaging() *CursorPaging
+	GetData() []PageItem
+	GetPage() *CursorPage
 }
 
 type PageItem interface {
@@ -23,27 +23,27 @@ func (Application) IsPageItem()        {}
 func (this Application) GetID() string { return this.ID }
 
 type ApplicationPagination struct {
-	Items  []*Application `json:"items,omitempty"`
-	Paging *CursorPaging  `json:"paging"`
+	Data []*Application `json:"data,omitempty"`
+	Page *CursorPage    `json:"page"`
 }
 
 func (ApplicationPagination) IsCursorPagination() {}
-func (this ApplicationPagination) GetItems() []PageItem {
-	if this.Items == nil {
+func (this ApplicationPagination) GetData() []PageItem {
+	if this.Data == nil {
 		return nil
 	}
-	interfaceSlice := make([]PageItem, 0, len(this.Items))
-	for _, concrete := range this.Items {
+	interfaceSlice := make([]PageItem, 0, len(this.Data))
+	for _, concrete := range this.Data {
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
 }
-func (this ApplicationPagination) GetPaging() *CursorPaging { return this.Paging }
+func (this ApplicationPagination) GetPage() *CursorPage { return this.Page }
 
-type CursorPaging struct {
-	Next     string `json:"next"`
-	Previous string `json:"previous"`
-	Total    int    `json:"total"`
+type CursorPage struct {
+	Previous *string `json:"previous,omitempty"`
+	Next     *string `json:"next,omitempty"`
+	Total    int     `json:"total"`
 }
 
 type NewApplication struct {

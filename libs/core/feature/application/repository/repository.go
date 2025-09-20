@@ -6,6 +6,7 @@ import (
 	"libs/core/feature/application/entity"
 
 	"github.com/google/uuid"
+	"github.com/pilagod/gorm-cursor-paginator/v2/paginator"
 	"gorm.io/gorm"
 )
 
@@ -69,4 +70,37 @@ func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, vers
 
 func (r *Repository) FindAll(ctx context.Context) (apps []entity.Application, err error) {
 	return gorm.G[entity.Application](r.db).Find(ctx)
+}
+
+func (r *Repository) FindAllPaginated(ctx context.Context, pageReq *common.CursorPageRequest) (apps []entity.Application, pageRes common.CursorPageResponse, err error) {
+	var p = paginator.New(
+		paginator.WithKeys("CreatedAt", "ID"),
+		paginator.WithLimit(pageReq.Size),
+	)
+
+	if pageReq.After != nil {
+		p.SetAfterCursor(*pageReq.After)
+	}
+
+	if pageReq.Before != nil {
+		p.SetAfterCursor(*pageReq.Before)
+	}
+
+	result, cursor, err := p.Paginate(r.db.WithContext(ctx).Model(&entity.Application{}), &apps)
+
+	if err != nil {
+		return
+	}
+
+	if result.Error != nil {
+		return nil, common.CursorPageResponse{}, result.Error
+	}
+
+	pageRes = common.CursorPageResponse{
+		Next:     cursor.After,
+		Previous: cursor.Before,
+		Total:    len(apps),
+	}
+
+	return
 }

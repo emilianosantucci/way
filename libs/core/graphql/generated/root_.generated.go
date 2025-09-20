@@ -47,11 +47,11 @@ type ComplexityRoot struct {
 	}
 
 	ApplicationPagination struct {
-		Items  func(childComplexity int) int
-		Paging func(childComplexity int) int
+		Data func(childComplexity int) int
+		Page func(childComplexity int) int
 	}
 
-	CursorPaging struct {
+	CursorPage struct {
 		Next     func(childComplexity int) int
 		Previous func(childComplexity int) int
 		Total    func(childComplexity int) int
@@ -63,8 +63,9 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Applications func(childComplexity int) int
-		Routes       func(childComplexity int) int
+		Applications          func(childComplexity int) int
+		ApplicationsPaginated func(childComplexity int, size int, after *string, before *string) int
+		Routes                func(childComplexity int) int
 	}
 
 	Route struct {
@@ -112,40 +113,40 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Application.Version(childComplexity), true
 
-	case "ApplicationPagination.items":
-		if e.complexity.ApplicationPagination.Items == nil {
+	case "ApplicationPagination.data":
+		if e.complexity.ApplicationPagination.Data == nil {
 			break
 		}
 
-		return e.complexity.ApplicationPagination.Items(childComplexity), true
+		return e.complexity.ApplicationPagination.Data(childComplexity), true
 
-	case "ApplicationPagination.paging":
-		if e.complexity.ApplicationPagination.Paging == nil {
+	case "ApplicationPagination.page":
+		if e.complexity.ApplicationPagination.Page == nil {
 			break
 		}
 
-		return e.complexity.ApplicationPagination.Paging(childComplexity), true
+		return e.complexity.ApplicationPagination.Page(childComplexity), true
 
-	case "CursorPaging.next":
-		if e.complexity.CursorPaging.Next == nil {
+	case "CursorPage.next":
+		if e.complexity.CursorPage.Next == nil {
 			break
 		}
 
-		return e.complexity.CursorPaging.Next(childComplexity), true
+		return e.complexity.CursorPage.Next(childComplexity), true
 
-	case "CursorPaging.previous":
-		if e.complexity.CursorPaging.Previous == nil {
+	case "CursorPage.previous":
+		if e.complexity.CursorPage.Previous == nil {
 			break
 		}
 
-		return e.complexity.CursorPaging.Previous(childComplexity), true
+		return e.complexity.CursorPage.Previous(childComplexity), true
 
-	case "CursorPaging.total":
-		if e.complexity.CursorPaging.Total == nil {
+	case "CursorPage.total":
+		if e.complexity.CursorPage.Total == nil {
 			break
 		}
 
-		return e.complexity.CursorPaging.Total(childComplexity), true
+		return e.complexity.CursorPage.Total(childComplexity), true
 
 	case "Mutation.createApplication":
 		if e.complexity.Mutation.CreateApplication == nil {
@@ -177,6 +178,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Applications(childComplexity), true
+
+	case "Query.applicationsPaginated":
+		if e.complexity.Query.ApplicationsPaginated == nil {
+			break
+		}
+
+		args, err := ec.field_Query_applicationsPaginated_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.ApplicationsPaginated(childComplexity, args["size"].(int), args["after"].(*string), args["before"].(*string)), true
 
 	case "Query.routes":
 		if e.complexity.Query.Routes == nil {
@@ -303,17 +316,16 @@ var sources = []*ast.Source{
     id: ID!
 }
 
-type CursorPaging {
-    next: ID!
-    previous: ID!
+type CursorPage {
+    previous: ID
+    next: ID
     total: Int!
 }
 
 interface CursorPagination {
-    items: [PageItem]
-    paging: CursorPaging!
-}
-`, BuiltIn: false},
+    data: [PageItem]
+    page: CursorPage!
+}`, BuiltIn: false},
 	{Name: "../../feature/application/graphql/schema/application.graphql", Input: `input NewApplication {
     name: String!
     version: String!
@@ -326,8 +338,8 @@ type Application implements PageItem {
 }
 
 type ApplicationPagination implements CursorPagination {
-    items: [Application]
-    paging: CursorPaging!
+    data: [Application]
+    page: CursorPage!
 }
 
 
@@ -337,7 +349,7 @@ extend type Mutation {
 
 extend type Query {
     applications: [Application!]!
-#    applicationsPaginated(size: Int!, after: String, before: String): ApplicationPagination
+    applicationsPaginated(size: Int!, after: String, before: String): ApplicationPagination!
 }`, BuiltIn: false},
 	{Name: "../../feature/resource/route/graphql/schema/route.graphql", Input: `input NewRoute {
     name: String!

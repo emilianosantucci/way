@@ -27,52 +27,8 @@ import (
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _CursorPaging_next(ctx context.Context, field graphql.CollectedField, obj *CursorPaging) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CursorPaging_next(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Next, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_CursorPaging_next(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "CursorPaging",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _CursorPaging_previous(ctx context.Context, field graphql.CollectedField, obj *CursorPaging) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CursorPaging_previous(ctx, field)
+func (ec *executionContext) _CursorPage_previous(ctx context.Context, field graphql.CollectedField, obj *CursorPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CursorPage_previous(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -92,19 +48,16 @@ func (ec *executionContext) _CursorPaging_previous(ctx context.Context, field gr
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CursorPaging_previous(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CursorPage_previous(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "CursorPaging",
+		Object:     "CursorPage",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -115,8 +68,49 @@ func (ec *executionContext) fieldContext_CursorPaging_previous(_ context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _CursorPaging_total(ctx context.Context, field graphql.CollectedField, obj *CursorPaging) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_CursorPaging_total(ctx, field)
+func (ec *executionContext) _CursorPage_next(ctx context.Context, field graphql.CollectedField, obj *CursorPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CursorPage_next(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Next, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_CursorPage_next(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "CursorPage",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _CursorPage_total(ctx context.Context, field graphql.CollectedField, obj *CursorPage) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_CursorPage_total(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -146,9 +140,9 @@ func (ec *executionContext) _CursorPaging_total(ctx context.Context, field graph
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_CursorPaging_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_CursorPage_total(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "CursorPaging",
+		Object:     "CursorPage",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -203,29 +197,23 @@ func (ec *executionContext) _PageItem(ctx context.Context, sel ast.SelectionSet,
 
 // region    **************************** object.gotpl ****************************
 
-var cursorPagingImplementors = []string{"CursorPaging"}
+var cursorPageImplementors = []string{"CursorPage"}
 
-func (ec *executionContext) _CursorPaging(ctx context.Context, sel ast.SelectionSet, obj *CursorPaging) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, cursorPagingImplementors)
+func (ec *executionContext) _CursorPage(ctx context.Context, sel ast.SelectionSet, obj *CursorPage) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, cursorPageImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	deferred := make(map[string]*graphql.FieldSet)
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("CursorPaging")
-		case "next":
-			out.Values[i] = ec._CursorPaging_next(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+			out.Values[i] = graphql.MarshalString("CursorPage")
 		case "previous":
-			out.Values[i] = ec._CursorPaging_previous(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
+			out.Values[i] = ec._CursorPage_previous(ctx, field, obj)
+		case "next":
+			out.Values[i] = ec._CursorPage_next(ctx, field, obj)
 		case "total":
-			out.Values[i] = ec._CursorPaging_total(ctx, field, obj)
+			out.Values[i] = ec._CursorPage_total(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -256,14 +244,14 @@ func (ec *executionContext) _CursorPaging(ctx context.Context, sel ast.Selection
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNCursorPaging2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐCursorPaging(ctx context.Context, sel ast.SelectionSet, v *CursorPaging) graphql.Marshaler {
+func (ec *executionContext) marshalNCursorPage2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐCursorPage(ctx context.Context, sel ast.SelectionSet, v *CursorPage) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
-	return ec._CursorPaging(ctx, sel, v)
+	return ec._CursorPage(ctx, sel, v)
 }
 
 // endregion ***************************** type.gotpl *****************************

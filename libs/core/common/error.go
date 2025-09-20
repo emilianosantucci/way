@@ -13,6 +13,7 @@ var (
 	ErrApplicationWithSameNameAndVersionExists = errors.New("application with same name and version already exists")
 	ErrRestApiResourceNotFound                 = errors.New("rest rest resource not found")
 	ErrRouteNotFound                           = errors.New("route not found")
+	ErrPageRequestInvalid                      = errors.New("page request invalid")
 )
 
 func GenerateRecordNotFoundError(input error, customErr error) (err error) {

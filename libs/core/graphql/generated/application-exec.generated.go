@@ -23,6 +23,7 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Applications(ctx context.Context) ([]*Application, error)
+	ApplicationsPaginated(ctx context.Context, size int, after *string, before *string) (*ApplicationPagination, error)
 	Routes(ctx context.Context) ([]*Route, error)
 }
 
@@ -60,6 +61,27 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		return nil, err
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_applicationsPaginated_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "size", ec.unmarshalNInt2int)
+	if err != nil {
+		return nil, err
+	}
+	args["size"] = arg0
+	arg1, err := graphql.ProcessArgField(ctx, rawArgs, "after", ec.unmarshalOString2ᚖstring)
+	if err != nil {
+		return nil, err
+	}
+	args["after"] = arg1
+	arg2, err := graphql.ProcessArgField(ctx, rawArgs, "before", ec.unmarshalOString2ᚖstring)
+	if err != nil {
+		return nil, err
+	}
+	args["before"] = arg2
 	return args, nil
 }
 
@@ -203,8 +225,8 @@ func (ec *executionContext) fieldContext_Application_version(_ context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _ApplicationPagination_items(ctx context.Context, field graphql.CollectedField, obj *ApplicationPagination) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ApplicationPagination_items(ctx, field)
+func (ec *executionContext) _ApplicationPagination_data(ctx context.Context, field graphql.CollectedField, obj *ApplicationPagination) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ApplicationPagination_data(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -217,7 +239,7 @@ func (ec *executionContext) _ApplicationPagination_items(ctx context.Context, fi
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Items, nil
+		return obj.Data, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -231,7 +253,7 @@ func (ec *executionContext) _ApplicationPagination_items(ctx context.Context, fi
 	return ec.marshalOApplication2ᚕᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplication(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ApplicationPagination_items(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ApplicationPagination_data(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ApplicationPagination",
 		Field:      field,
@@ -252,8 +274,8 @@ func (ec *executionContext) fieldContext_ApplicationPagination_items(_ context.C
 	return fc, nil
 }
 
-func (ec *executionContext) _ApplicationPagination_paging(ctx context.Context, field graphql.CollectedField, obj *ApplicationPagination) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ApplicationPagination_paging(ctx, field)
+func (ec *executionContext) _ApplicationPagination_page(ctx context.Context, field graphql.CollectedField, obj *ApplicationPagination) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ApplicationPagination_page(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -266,7 +288,7 @@ func (ec *executionContext) _ApplicationPagination_paging(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Paging, nil
+		return obj.Page, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -278,12 +300,12 @@ func (ec *executionContext) _ApplicationPagination_paging(ctx context.Context, f
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*CursorPaging)
+	res := resTmp.(*CursorPage)
 	fc.Result = res
-	return ec.marshalNCursorPaging2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐCursorPaging(ctx, field.Selections, res)
+	return ec.marshalNCursorPage2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐCursorPage(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ApplicationPagination_paging(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ApplicationPagination_page(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ApplicationPagination",
 		Field:      field,
@@ -291,14 +313,14 @@ func (ec *executionContext) fieldContext_ApplicationPagination_paging(_ context.
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "next":
-				return ec.fieldContext_CursorPaging_next(ctx, field)
 			case "previous":
-				return ec.fieldContext_CursorPaging_previous(ctx, field)
+				return ec.fieldContext_CursorPage_previous(ctx, field)
+			case "next":
+				return ec.fieldContext_CursorPage_next(ctx, field)
 			case "total":
-				return ec.fieldContext_CursorPaging_total(ctx, field)
+				return ec.fieldContext_CursorPage_total(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type CursorPaging", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type CursorPage", field.Name)
 		},
 	}
 	return fc, nil
@@ -474,6 +496,67 @@ func (ec *executionContext) fieldContext_Query_applications(_ context.Context, f
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Application", field.Name)
 		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_applicationsPaginated(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_applicationsPaginated(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().ApplicationsPaginated(rctx, fc.Args["size"].(int), fc.Args["after"].(*string), fc.Args["before"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*ApplicationPagination)
+	fc.Result = res
+	return ec.marshalNApplicationPagination2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplicationPagination(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_applicationsPaginated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "data":
+				return ec.fieldContext_ApplicationPagination_data(ctx, field)
+			case "page":
+				return ec.fieldContext_ApplicationPagination_page(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ApplicationPagination", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_applicationsPaginated_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -760,10 +843,10 @@ func (ec *executionContext) _ApplicationPagination(ctx context.Context, sel ast.
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("ApplicationPagination")
-		case "items":
-			out.Values[i] = ec._ApplicationPagination_items(ctx, field, obj)
-		case "paging":
-			out.Values[i] = ec._ApplicationPagination_paging(ctx, field, obj)
+		case "data":
+			out.Values[i] = ec._ApplicationPagination_data(ctx, field, obj)
+		case "page":
+			out.Values[i] = ec._ApplicationPagination_page(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -887,6 +970,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "applicationsPaginated":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_applicationsPaginated(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "routes":
 			field := field
 
@@ -997,6 +1102,20 @@ func (ec *executionContext) marshalNApplication2ᚖlibsᚋcoreᚋgraphqlᚋgener
 		return graphql.Null
 	}
 	return ec._Application(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNApplicationPagination2libsᚋcoreᚋgraphqlᚋgeneratedᚐApplicationPagination(ctx context.Context, sel ast.SelectionSet, v ApplicationPagination) graphql.Marshaler {
+	return ec._ApplicationPagination(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNApplicationPagination2ᚖlibsᚋcoreᚋgraphqlᚋgeneratedᚐApplicationPagination(ctx context.Context, sel ast.SelectionSet, v *ApplicationPagination) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ApplicationPagination(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNNewApplication2libsᚋcoreᚋgraphqlᚋgeneratedᚐNewApplication(ctx context.Context, v any) (NewApplication, error) {

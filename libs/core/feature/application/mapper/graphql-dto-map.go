@@ -19,4 +19,7 @@ type GraphqlDtoMap interface {
 	ToDto(source *model.Application, target *generated.Application)
 
 	ToDtos(source []model.Application) (target []*generated.Application)
+
+	// goverter:update target
+	ToPagination(source *model.PaginatedApplications, target *generated.ApplicationPagination)
 }
