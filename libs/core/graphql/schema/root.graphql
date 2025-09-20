@@ -1,0 +1,14 @@
+interface PageItem {
+    id: ID!
+}
+
+type CursorPaging {
+    next: ID!
+    previous: ID!
+    total: Int!
+}
+
+interface CursorPagination {
+    items: [PageItem]
+    paging: CursorPaging!
+}

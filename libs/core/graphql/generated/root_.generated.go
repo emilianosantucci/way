@@ -46,6 +46,17 @@ type ComplexityRoot struct {
 		Version func(childComplexity int) int
 	}
 
+	ApplicationPagination struct {
+		Items  func(childComplexity int) int
+		Paging func(childComplexity int) int
+	}
+
+	CursorPaging struct {
+		Next     func(childComplexity int) int
+		Previous func(childComplexity int) int
+		Total    func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateApplication func(childComplexity int, input NewApplication) int
 		CreateRoute       func(childComplexity int, input NewRoute) int
@@ -100,6 +111,41 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Application.Version(childComplexity), true
+
+	case "ApplicationPagination.items":
+		if e.complexity.ApplicationPagination.Items == nil {
+			break
+		}
+
+		return e.complexity.ApplicationPagination.Items(childComplexity), true
+
+	case "ApplicationPagination.paging":
+		if e.complexity.ApplicationPagination.Paging == nil {
+			break
+		}
+
+		return e.complexity.ApplicationPagination.Paging(childComplexity), true
+
+	case "CursorPaging.next":
+		if e.complexity.CursorPaging.Next == nil {
+			break
+		}
+
+		return e.complexity.CursorPaging.Next(childComplexity), true
+
+	case "CursorPaging.previous":
+		if e.complexity.CursorPaging.Previous == nil {
+			break
+		}
+
+		return e.complexity.CursorPaging.Previous(childComplexity), true
+
+	case "CursorPaging.total":
+		if e.complexity.CursorPaging.Total == nil {
+			break
+		}
+
+		return e.complexity.CursorPaging.Total(childComplexity), true
 
 	case "Mutation.createApplication":
 		if e.complexity.Mutation.CreateApplication == nil {
@@ -253,24 +299,45 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/root.graphql", Input: ``, BuiltIn: false},
+	{Name: "../schema/root.graphql", Input: `interface PageItem {
+    id: ID!
+}
+
+type CursorPaging {
+    next: ID!
+    previous: ID!
+    total: Int!
+}
+
+interface CursorPagination {
+    items: [PageItem]
+    paging: CursorPaging!
+}
+`, BuiltIn: false},
 	{Name: "../../feature/application/graphql/schema/application.graphql", Input: `input NewApplication {
     name: String!
     version: String!
 }
 
-type Application {
+type Application implements PageItem {
     id: ID!
     name: String!
     version: String!
 }
+
+type ApplicationPagination implements CursorPagination {
+    items: [Application]
+    paging: CursorPaging!
+}
+
 
 extend type Mutation {
     createApplication(input: NewApplication!): Application!
 }
 
 extend type Query {
-    applications: [Application]
+    applications: [Application!]!
+#    applicationsPaginated(size: Int!, after: String, before: String): ApplicationPagination
 }`, BuiltIn: false},
 	{Name: "../../feature/resource/route/graphql/schema/route.graphql", Input: `input NewRoute {
     name: String!

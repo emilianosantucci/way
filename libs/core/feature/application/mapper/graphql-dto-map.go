@@ -17,4 +17,6 @@ type GraphqlDtoMap interface {
 
 	// goverter:update target
 	ToDto(source *model.Application, target *generated.Application)
+
+	ToDtos(source []model.Application) (target []*generated.Application)
 }

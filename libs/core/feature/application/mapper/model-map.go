@@ -18,4 +18,6 @@ type ModelMap interface {
 
 	// goverter:update target
 	FromUpdateToEntity(source *model2.UpdateApplication, target *entity.Application)
+
+	ToModels(source []entity.Application) (target []model2.Application)
 }

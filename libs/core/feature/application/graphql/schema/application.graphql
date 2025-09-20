@@ -3,16 +3,23 @@ input NewApplication {
     version: String!
 }
 
-type Application {
+type Application implements PageItem {
     id: ID!
     name: String!
     version: String!
 }
+
+type ApplicationPagination implements CursorPagination {
+    items: [Application]
+    paging: CursorPaging!
+}
+
 
 extend type Mutation {
     createApplication(input: NewApplication!): Application!
 }
 
 extend type Query {
-    applications: [Application]
+    applications: [Application!]!
+#    applicationsPaginated(size: Int!, after: String, before: String): ApplicationPagination
 }

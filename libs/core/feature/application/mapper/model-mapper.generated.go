@@ -30,6 +30,23 @@ func (c *ModelMapper) ToModel(source *entity.Application, target *model.Applicat
 		target.Version = source.Version
 	}
 }
+func (c *ModelMapper) ToModels(source []entity.Application) []model.Application {
+	var modelApplicationList []model.Application
+	if source != nil {
+		modelApplicationList = make([]model.Application, len(source))
+		for i := 0; i < len(source); i++ {
+			modelApplicationList[i] = c.entityApplicationToModelApplication(source[i])
+		}
+	}
+	return modelApplicationList
+}
+func (c *ModelMapper) entityApplicationToModelApplication(source entity.Application) model.Application {
+	var modelApplication model.Application
+	modelApplication.ID = c.uuidUUIDToUuidUUID(source.ID)
+	modelApplication.Name = source.Name
+	modelApplication.Version = source.Version
+	return modelApplication
+}
 func (c *ModelMapper) uuidUUIDToUuidUUID(source uuid.UUID) uuid.UUID {
 	var uuidUUID uuid.UUID
 	for i := 0; i < len(source); i++ {

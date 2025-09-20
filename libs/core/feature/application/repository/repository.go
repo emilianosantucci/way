@@ -66,3 +66,7 @@ func (r *Repository) FindByNameAndVersion(ctx context.Context, name string, vers
 	ent, err = gorm.G[*entity.Application](r.db).Where("name = ? AND version = ?", name, version).First(ctx)
 	return ent, common.GenerateRecordNotFoundError(err, common.ErrApplicationNotFound)
 }
+
+func (r *Repository) FindAll(ctx context.Context) (apps []entity.Application, err error) {
+	return gorm.G[entity.Application](r.db).Find(ctx)
+}

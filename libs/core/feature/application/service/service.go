@@ -6,7 +6,7 @@ import (
 	"libs/core/common"
 	"libs/core/feature/application/entity"
 	"libs/core/feature/application/mapper"
-	model2 "libs/core/feature/application/model"
+	"libs/core/feature/application/model"
 	"libs/core/feature/application/repository"
 
 	"github.com/go-playground/validator/v10"
@@ -28,7 +28,7 @@ type Service struct {
 	mapper     mapper.ModelMap
 }
 
-func (s *Service) Create(ctx context.Context, newApp *model2.NewApplication) (app *model2.Application, err error) {
+func (s *Service) Create(ctx context.Context, newApp *model.NewApplication) (app *model.Application, err error) {
 	if err = s.validator.StructCtx(ctx, newApp); err != nil {
 		return
 	}
@@ -40,13 +40,13 @@ func (s *Service) Create(ctx context.Context, newApp *model2.NewApplication) (ap
 		return
 	}
 
-	app = new(model2.Application)
+	app = new(model.Application)
 	s.mapper.ToModel(ent, app)
 
 	return
 }
 
-func (s *Service) Update(ctx context.Context, updApp *model2.UpdateApplication) (app *model2.Application, err error) {
+func (s *Service) Update(ctx context.Context, updApp *model.UpdateApplication) (app *model.Application, err error) {
 	if err = s.validator.StructCtx(ctx, updApp); err != nil {
 		return
 	}
@@ -71,7 +71,7 @@ func (s *Service) Delete(ctx context.Context, id uuid.UUID) (err error) {
 	return s.repository.Delete(ctx, id)
 }
 
-func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model2.Application, err error) {
+func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model.Application, err error) {
 	if err = s.validator.VarCtx(ctx, id, "uuid4_rfc4122"); err != nil {
 		return
 	}
@@ -81,7 +81,19 @@ func (s *Service) FindById(ctx context.Context, id uuid.UUID) (app *model2.Appli
 		return
 	}
 
-	app = new(model2.Application)
+	app = new(model.Application)
 	s.mapper.ToModel(ent, app)
+	return
+}
+
+func (s *Service) FindAll(ctx context.Context) (apps []model.Application, err error) {
+	var entities []entity.Application
+	entities, err = s.repository.FindAll(ctx)
+
+	if err != nil {
+		return
+	}
+
+	apps = s.mapper.ToModels(entities)
 	return
 }

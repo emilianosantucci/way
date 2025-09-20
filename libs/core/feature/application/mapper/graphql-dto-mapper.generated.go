@@ -24,3 +24,20 @@ func (c *GraphqlDtoMapper) ToDto(source *model.Application, target *generated.Ap
 		target.Version = source.Version
 	}
 }
+func (c *GraphqlDtoMapper) ToDtos(source []model.Application) []*generated.Application {
+	var pGeneratedApplicationList []*generated.Application
+	if source != nil {
+		pGeneratedApplicationList = make([]*generated.Application, len(source))
+		for i := 0; i < len(source); i++ {
+			pGeneratedApplicationList[i] = c.modelApplicationToPGeneratedApplication(source[i])
+		}
+	}
+	return pGeneratedApplicationList
+}
+func (c *GraphqlDtoMapper) modelApplicationToPGeneratedApplication(source model.Application) *generated.Application {
+	var generatedApplication generated.Application
+	generatedApplication.ID = common.UuidToString(source.ID)
+	generatedApplication.Name = source.Name
+	generatedApplication.Version = source.Version
+	return &generatedApplication
+}
